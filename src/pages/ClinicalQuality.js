@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
 import { useTheme } from '../context/ThemeContext';
@@ -78,9 +78,9 @@ export default function ClinicalQuality() {
                 <div style={{ background: isDark ? '#38bdf8' : '#0284c7', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: isDark ? '0 0 12px rgba(56,189,248,0.6)' : 'none' }}>
                   <i className="ti ti-shield-check" style={{ fontSize: 18 }} />
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#f5f5f5' : '#111' }}>{l('mod_quality')}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#e2e8f0' : '#111' }}>{l('mod_quality')}</div>
               </div>
-              <div style={{ fontSize: 13, color: isDark ? '#ccc' : '#555' }}>
+              <div style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#3a3f5c' }}>
                 {l('desc_quality')}
               </div>
             </div>
@@ -114,26 +114,26 @@ export default function ClinicalQuality() {
 
       {/* Active Incidents Grid */}
       <div style={{
-        background: isDark ? '#1a1a1a' : '#fff',
-        border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+        background: isDark ? '#12141f' : '#fff',
+        border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
         borderRadius: 16,
         padding: 24,
         boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
           <i className="ti ti-alert-triangle" style={{ color: isDark ? '#fbbf24' : '#d97706' }} />
           {l('qual_active_incidents')} ({activeIncidents.length})
         </div>
         
         {activeIncidents.length === 0 ? (
-          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#aaa', fontSize: 14 }}>
+          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#64748b', fontSize: 14 }}>
             No active incidents reported.
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_date')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_department')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_severity')}</th>
@@ -146,8 +146,8 @@ export default function ClinicalQuality() {
                 {activeIncidents.map(inc => {
                   const badge = getSeverityBadge(inc.severity);
                   return (
-                    <tr key={inc._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#ddd' : '#333' }}>
-                      <td style={{ padding: '16px', color: isDark ? '#aaa' : '#666' }}>{inc.date}</td>
+                    <tr key={inc._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#ddd' : '#2d3148' }}>
+                      <td style={{ padding: '16px', color: isDark ? '#64748b' : '#666' }}>{inc.date}</td>
                       <td style={{ padding: '16px', fontWeight: 500 }}>{inc.department}</td>
                       <td style={{ padding: '16px' }}>
                         <span style={{ 
@@ -159,7 +159,7 @@ export default function ClinicalQuality() {
                       </td>
                       <td style={{ padding: '16px', maxWidth: 300, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{inc.description}</td>
                       <td style={{ padding: '16px' }}>
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: isDark ? '#aaa' : '#666' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: isDark ? '#64748b' : '#666' }}>
                           <span style={{ width: 8, height: 8, borderRadius: '50%', background: inc.status === 'open' ? '#f43f5e' : '#fbbf24' }}></span>
                           {l(`qual_stat_${inc.status}`)}
                         </span>
@@ -189,13 +189,13 @@ export default function ClinicalQuality() {
       {/* Resolved Incidents History */}
       {resolvedIncidents.length > 0 && (
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
         }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
             <i className="ti ti-shield-check" style={{ color: isDark ? '#38bdf8' : '#0ea5e9' }} />
             {l('qual_resolved_incidents')}
           </div>
@@ -203,7 +203,7 @@ export default function ClinicalQuality() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_date')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_department')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('qual_severity')}</th>
@@ -215,12 +215,12 @@ export default function ClinicalQuality() {
                 {resolvedIncidents.map(inc => {
                   const badge = getSeverityBadge(inc.severity);
                   return (
-                    <tr key={inc._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#888' : '#777' }}>
+                    <tr key={inc._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#888' : '#777' }}>
                       <td style={{ padding: '16px' }}>{inc.date}</td>
                       <td style={{ padding: '16px', fontWeight: 500 }}>{inc.department}</td>
                       <td style={{ padding: '16px' }}>
                         <span style={{ 
-                          background: isDark ? '#333' : '#f9fafb', color: badge.color, border: `1px solid ${isDark ? '#444' : '#eee'}`,
+                          background: isDark ? '#2d3148' : '#f9fafb', color: badge.color, border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
                           padding: '4px 8px', borderRadius: 6, fontSize: 11, fontWeight: 600, textTransform: 'uppercase' 
                         }}>
                           {l(`qual_sev_${inc.severity}`)}
@@ -248,42 +248,42 @@ export default function ClinicalQuality() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
         }}>
           <div style={{
-            background: isDark ? '#1a1a1a' : '#fff',
-            border: `1px solid ${isDark ? '#333' : '#eee'}`,
+            background: isDark ? '#12141f' : '#fff',
+            border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
             borderRadius: 16,
             width: '100%',
             maxWidth: 500,
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             overflow: 'hidden'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ fontSize: 18, fontWeight: 600, color: isDark ? '#fff' : '#111' }}>{l('qual_report_incident')}</div>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#aaa' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#64748b' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
             </div>
             
             <form onSubmit={handleReportIncident} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('qual_department')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('qual_department')}</label>
                 <input 
                   type="text" required placeholder="e.g. Inpatient Ward A"
                   value={formData.department} onChange={e => setFormData({...formData, department: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('qual_severity')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('qual_severity')}</label>
                 <select 
                   required
                   value={formData.severity} 
                   onChange={e => setFormData({...formData, severity: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 >
                   <option value="low">{l('qual_sev_low')}</option>
@@ -294,19 +294,19 @@ export default function ClinicalQuality() {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('qual_description')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('qual_description')}</label>
                 <textarea 
                   required rows="3" placeholder="Describe the safety incident or audit finding..."
                   value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none', resize: 'vertical'
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none', resize: 'vertical'
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, background: 'transparent', color: isDark ? '#aaa' : '#555', cursor: 'pointer', fontWeight: 500 }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, background: 'transparent', color: isDark ? '#64748b' : '#3a3f5c', cursor: 'pointer', fontWeight: 500 }}>
                   Cancel
                 </button>
                 <button type="submit" style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: isDark ? '#38bdf8' : '#0ea5e9', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>

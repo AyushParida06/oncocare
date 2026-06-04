@@ -72,16 +72,16 @@ const themes = {
     logoDot: '#1D9E75',
   },
   dark: {
-    appBg: '#1a1a1a',
-    sidebarBg: '#252525',
-    topbarBg: '#2c2c2c',
-    textPrimary: '#f5f5f5',
-    textSecondary: '#cccccc',
-    border: '#444',
-    accentBg: '#0F6E56',
-    accentText: '#E1F5EE',
-    logoColor: '#E1F5EE',
-    logoDot: '#4caf50',
+    appBg: '#12141f',
+    sidebarBg: '#1e2030',
+    topbarBg: '#1e2030',
+    textPrimary: '#e2e8f0',
+    textSecondary: '#94a3b8',
+    border: '#2d3148',
+    accentBg: 'rgba(99,102,241,0.18)',
+    accentText: '#818cf8',
+    logoColor: '#e2e8f0',
+    logoDot: '#818cf8',
   },
 };
 
@@ -91,13 +91,14 @@ export default function Layout() {
   const { language, setLanguage, t: l } = useLanguage();
   const { signOut } = useAuthActions();
   const [search, setSearch] = useState('');
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState('dark');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
   const menuRef = useRef(null);
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
   const themeColors = themes[theme];
+  const isDark = theme === 'dark';
   const pageTitle = getPageTitles(l)[location.pathname] || 'VistaOnco';
 
   useEffect(() => {
@@ -122,11 +123,11 @@ export default function Layout() {
     logoText: { fontSize: 20, fontWeight: 600, color: themeColors.logoColor, display: 'flex', alignItems: 'center', gap: 8, transition: 'color 0.3s ease' },
     logoDot: { width: 10, height: 10, borderRadius: '50%', background: themeColors.logoDot, transition: 'background 0.3s ease' },
     logoSub: { fontSize: 11, color: themeColors.textSecondary, marginTop: 2, letterSpacing: '0.04em', transition: 'color 0.3s ease' },
-    sidebarSearch: { margin: '10px 10px 6px', padding: '7px 10px', borderRadius: 8, border: `0.5px solid ${themeColors.border}`, background: theme === 'light' ? '#f9fafb' : '#333', fontSize: 13, width: 'calc(100% - 20px)', outline: 'none', color: themeColors.textPrimary, transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease' },
+    sidebarSearch: { margin: '10px 10px 6px', padding: '7px 10px', borderRadius: 8, border: `0.5px solid ${themeColors.border}`, background: theme === 'light' ? '#f9fafb' : '#16182a', fontSize: 13, width: 'calc(100% - 20px)', outline: 'none', color: themeColors.textPrimary, transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease' },
     nav: { flex: 1, padding: '4px 0' },
-    navSection: { padding: '10px 16px 4px', fontSize: 10, color: '#aaa', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 500 },
-    navItem: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', margin: '1px 6px', borderRadius: 8, fontSize: 13, color: themeColors.textSecondary, cursor: 'pointer', textDecoration: 'none', transition: 'background 0.2s ease, color 0.2s ease' },
-    navItemActive: { background: themeColors.accentBg, color: themeColors.accentText, fontWeight: 500, textShadow: theme === 'dark' ? '0 0 6px rgba(255,255,255,0.8)' : 'none', transition: 'background 0.2s ease, color 0.2s ease' },
+    navSection: { padding: '10px 16px 4px', fontSize: 10, color: isDark ? '#475569' : '#9ca3af', letterSpacing: '0.08em', textTransform: 'uppercase', fontWeight: 600 },
+    navItem: { display: 'flex', alignItems: 'center', gap: 10, padding: '8px 12px', margin: '1px 6px', borderRadius: 8, fontSize: 13, color: isDark ? '#e2e8f0' : '#555', cursor: 'pointer', textDecoration: 'none', transition: 'background 0.2s ease, color 0.2s ease' },
+    navItemActive: { background: 'rgba(99,102,241,0.18)', color: '#818cf8', fontWeight: 600, transition: 'background 0.2s ease, color 0.2s ease' },
     navIcon: { fontSize: 16 },
     main: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' },
     topbar: { background: themeColors.topbarBg, borderBottom: `0.5px solid ${themeColors.border}`, padding: '0 20px', height: 52, minHeight: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'background 0.3s ease, border-color 0.3s ease' },
@@ -143,8 +144,8 @@ export default function Layout() {
       borderRadius: 20,
       cursor: 'pointer',
       fontSize: 12,
-      background: theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'transparent',
-      boxShadow: theme === 'dark' ? '0 0 8px rgba(255,255,255,0.6)' : 'none',
+      background: theme === 'dark' ? '#2d3148' : 'transparent',
+      boxShadow: 'none',
       transition: 'background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
     },
     userAvatar: { width: 26, height: 26, borderRadius: '50%', background: themeColors.accentBg, color: themeColors.accentText, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, transition: 'background 0.2s ease, color 0.2s ease' },
@@ -236,8 +237,8 @@ export default function Layout() {
               </div>
             ))}
             {/* Theme toggle */}
-            <div onClick={toggleTheme} style={styles.topbarIcon} title="Toggle theme">
-              <i className={`ti ${theme === 'light' ? 'ti-moon' : 'ti-sun'}`} style={{ fontSize: 16 }} />
+            <div onClick={toggleTheme} style={{ ...styles.topbarIcon, color: isDark ? '#fbbf24' : '#64748b' }} title="Toggle theme">
+              <i className={`ti ${isDark ? 'ti-sun' : 'ti-moon'}`} style={{ fontSize: 16 }} />
             </div>
             <div style={{ position: 'relative' }} ref={menuRef}>
               <div style={styles.userPill} onClick={() => setShowUserMenu(!showUserMenu)}>
@@ -255,10 +256,10 @@ export default function Layout() {
                   top: '110%',
                   right: 0,
                   width: 200,
-                  background: theme === 'dark' ? '#2a2a2a' : '#fff',
+                  background: theme === 'dark' ? '#1e2030' : '#fff',
                   border: `0.5px solid ${themeColors.border}`,
                   borderRadius: 12,
-                  boxShadow: theme === 'dark' ? '0 4px 20px rgba(0,0,0,0.5)' : '0 4px 20px rgba(0,0,0,0.08)',
+                  boxShadow: theme === 'dark' ? '0 8px 32px rgba(0,0,0,0.7)' : '0 4px 20px rgba(0,0,0,0.08)',
                   padding: '8px 0',
                   zIndex: 50,
                   display: 'flex',
@@ -266,7 +267,7 @@ export default function Layout() {
                 }}>
                   <div 
                     style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', fontSize: 13, color: themeColors.textPrimary, transition: 'background 0.2s' }}
-                    onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#333' : '#f9fafb'}
+                    onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#2d3148' : '#f9fafb'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                     onClick={() => setShowLangMenu(!showLangMenu)}
                   >
@@ -279,7 +280,7 @@ export default function Layout() {
                   
                   {/* Language Options Sub-menu */}
                   {showLangMenu && (
-                    <div style={{ background: theme === 'dark' ? '#222' : '#f4f6f8', padding: '4px 0', borderTop: `0.5px solid ${themeColors.border}`, borderBottom: `0.5px solid ${themeColors.border}` }}>
+                    <div style={{ background: theme === 'dark' ? '#16182a' : '#f4f6f8', padding: '4px 0', borderTop: `0.5px solid ${themeColors.border}`, borderBottom: `0.5px solid ${themeColors.border}` }}>
                       {['English', 'Hindi', 'Odia', 'Marathi'].map(lang => (
                         <div 
                           key={lang}
@@ -292,7 +293,7 @@ export default function Layout() {
                             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                             transition: 'background 0.2s'
                           }}
-                          onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#333' : '#e5e7eb'}
+                          onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#2d3148' : '#e5e7eb'}
                           onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                           onClick={() => { setLanguage(lang); setShowLangMenu(false); setShowUserMenu(false); }}
                         >
@@ -304,7 +305,7 @@ export default function Layout() {
                   )}
                   <div 
                     style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer', fontSize: 13, color: themeColors.textPrimary, transition: 'background 0.2s' }}
-                    onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#333' : '#f9fafb'}
+                    onMouseEnter={e => e.currentTarget.style.background = theme === 'dark' ? '#2d3148' : '#f9fafb'}
                     onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
                     onClick={() => setShowUserMenu(false)}
                   >

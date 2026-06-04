@@ -16,8 +16,8 @@ const info = {
 export default function RIS() {
   const { theme } = useTheme();
   const { t: l } = useLanguage(); const isDark = theme === 'dark';
-  const cardBg = isDark ? '#2a2a2a' : '#fff'; const cardBorder = isDark ? '#444' : '#e5e7eb';
-  const textMain = isDark ? '#f5f5f5' : '#111'; const textMuted = isDark ? '#aaa' : '#888';
+  const cardBg = isDark ? '#1e2030' : '#fff'; const cardBorder = isDark ? '#2d3148' : '#e5e7eb';
+  const textMain = isDark ? '#e2e8f0' : '#111'; const textMuted = isDark ? '#64748b' : '#888';
   const cardStyle = { background: cardBg, border: `0.5px solid ${cardBorder}`, borderRadius: 12, boxShadow: isDark ? `0 0 16px rgba(${info.glowColor},0.12)` : 'none', transition: 'background 0.3s' };
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>

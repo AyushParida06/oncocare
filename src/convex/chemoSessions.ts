@@ -65,3 +65,17 @@ export const todayCount = query({
     };
   },
 });
+
+export const statusSummary = query({
+  args: {},
+  handler: async (ctx) => {
+    const sessions = await ctx.db.query("chemoSessions").take(500);
+    const counts: Record<string, number> = {
+      scheduled: 0, "in-progress": 0, completed: 0, delayed: 0, skipped: 0,
+    };
+    for (const s of sessions) {
+      counts[s.status] = (counts[s.status] || 0) + 1;
+    }
+    return counts;
+  },
+});

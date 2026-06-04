@@ -154,9 +154,9 @@ export default function PatientBilling() {
                 <div style={{ background: isDark ? '#34d399' : '#10b981', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: isDark ? '0 0 12px rgba(52,211,153,0.6)' : 'none' }}>
                   <i className="ti ti-receipt-2" style={{ fontSize: 18 }} />
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#f5f5f5' : '#111' }}>{l('mod_billing')}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#e2e8f0' : '#111' }}>{l('mod_billing')}</div>
               </div>
-              <div style={{ fontSize: 13, color: isDark ? '#ccc' : '#555' }}>
+              <div style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#3a3f5c' }}>
                 {l('desc_billing')}
               </div>
             </div>
@@ -188,14 +188,14 @@ export default function PatientBilling() {
 
         {/* Stat Card 1 */}
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
           boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.2)' : '0 2px 10px rgba(0,0,0,0.02)'
         }}>
-          <div style={{ fontSize: 13, color: isDark ? '#aaa' : '#666', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ fontSize: 13, color: isDark ? '#64748b' : '#666', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444' }}></div>
             {l('billing_total_unpaid')}
           </div>
@@ -206,14 +206,14 @@ export default function PatientBilling() {
 
         {/* Stat Card 2 */}
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           display: 'flex', flexDirection: 'column', justifyContent: 'center',
           boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.2)' : '0 2px 10px rgba(0,0,0,0.02)'
         }}>
-          <div style={{ fontSize: 13, color: isDark ? '#aaa' : '#666', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ fontSize: 13, color: isDark ? '#64748b' : '#666', fontWeight: 600, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#10b981' }}></div>
             {l('billing_total_revenue')}
           </div>
@@ -226,26 +226,26 @@ export default function PatientBilling() {
 
       {/* Unpaid Invoices Grid */}
       <div style={{
-        background: isDark ? '#1a1a1a' : '#fff',
-        border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+        background: isDark ? '#12141f' : '#fff',
+        border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
         borderRadius: 16,
         padding: 24,
         boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
           <i className="ti ti-file-invoice" style={{ color: isDark ? '#f87171' : '#ef4444' }} />
           {l('billing_unpaid')} ({unpaidInvoices.length})
         </div>
         
         {unpaidInvoices.length === 0 ? (
-          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#aaa', fontSize: 14 }}>
+          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#64748b', fontSize: 14 }}>
             No unpaid invoices found. All caught up!
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Date</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('billing_description')}</th>
@@ -255,7 +255,7 @@ export default function PatientBilling() {
               </thead>
               <tbody>
                 {unpaidInvoices.map(inv => (
-                  <tr key={inv._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#ddd' : '#333' }}>
+                  <tr key={inv._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#ddd' : '#2d3148' }}>
                     <td style={{ padding: '16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ width: 32, height: 32, borderRadius: '50%', background: isDark ? 'rgba(239,68,68,0.1)' : '#fef2f2', color: isDark ? '#f87171' : '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 12 }}>
@@ -267,7 +267,7 @@ export default function PatientBilling() {
                         </div>
                       </div>
                     </td>
-                    <td style={{ padding: '16px', color: isDark ? '#aaa' : '#666' }}>{inv.date}</td>
+                    <td style={{ padding: '16px', color: isDark ? '#64748b' : '#666' }}>{inv.date}</td>
                     <td style={{ padding: '16px', fontWeight: 500 }}>{inv.description}</td>
                     <td style={{ padding: '16px', fontWeight: 700, color: isDark ? '#f87171' : '#ef4444' }}>₹{inv.amount.toLocaleString()}</td>
                     <td style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -328,13 +328,13 @@ export default function PatientBilling() {
       {/* Paid Invoices History */}
       {paidInvoices.length > 0 && (
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
         }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
             <i className="ti ti-receipt" style={{ color: isDark ? '#34d399' : '#10b981' }} />
             {l('billing_paid')}
           </div>
@@ -342,7 +342,7 @@ export default function PatientBilling() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Date</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('billing_description')}</th>
@@ -352,7 +352,7 @@ export default function PatientBilling() {
               </thead>
               <tbody>
                 {paidInvoices.map(inv => (
-                  <tr key={inv._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#888' : '#777' }}>
+                  <tr key={inv._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#888' : '#777' }}>
                     <td style={{ padding: '16px', fontWeight: 500 }}>{getPatientName(inv.patientId)}</td>
                     <td style={{ padding: '16px' }}>{inv.date}</td>
                     <td style={{ padding: '16px' }}>{inv.description}</td>
@@ -396,30 +396,30 @@ export default function PatientBilling() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
         }}>
           <div style={{
-            background: isDark ? '#1a1a1a' : '#fff',
-            border: `1px solid ${isDark ? '#333' : '#eee'}`,
+            background: isDark ? '#12141f' : '#fff',
+            border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
             borderRadius: 16,
             width: '100%',
             maxWidth: 500,
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             overflow: 'hidden'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ fontSize: 18, fontWeight: 600, color: isDark ? '#fff' : '#111' }}>{l('billing_new_invoice')}</div>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#aaa' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#64748b' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
             </div>
             
             <form onSubmit={handleAddInvoice} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>Select Patient</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>Select Patient</label>
                 <select 
                   required
                   value={formData.patientId} 
                   onChange={e => setFormData({...formData, patientId: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 >
                   <option value="">-- Select Patient --</option>
@@ -430,31 +430,31 @@ export default function PatientBilling() {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('billing_description')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('billing_description')}</label>
                 <input 
                   type="text" required placeholder="e.g. Cycle 1 Chemotherapy Administration"
                   value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('billing_amount')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('billing_amount')}</label>
                 <input 
                   type="number" required min="0" step="0.01" placeholder="e.g. 5000"
                   value={formData.amount} onChange={e => setFormData({...formData, amount: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, background: 'transparent', color: isDark ? '#aaa' : '#555', cursor: 'pointer', fontWeight: 500 }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, background: 'transparent', color: isDark ? '#64748b' : '#3a3f5c', cursor: 'pointer', fontWeight: 500 }}>
                   Cancel
                 </button>
                 <button type="submit" style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: isDark ? '#34d399' : '#10b981', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>

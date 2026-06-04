@@ -39,3 +39,17 @@ export const updateIncidentStatus = mutation({
     await ctx.db.patch(args.id, { status: args.status });
   },
 });
+
+export const severitySummary = query({
+  args: {},
+  handler: async (ctx) => {
+    const incidents = await ctx.db.query("qualityIncidents").take(200);
+    const counts: Record<string, number> = { low: 0, medium: 0, high: 0, critical: 0 };
+    const byStatus: Record<string, number> = { open: 0, investigating: 0, resolved: 0 };
+    for (const inc of incidents) {
+      counts[inc.severity] = (counts[inc.severity] || 0) + 1;
+      byStatus[inc.status] = (byStatus[inc.status] || 0) + 1;
+    }
+    return { bySeverity: counts, byStatus, total: incidents.length };
+  },
+});

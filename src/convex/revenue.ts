@@ -29,3 +29,18 @@ export const submitClaim = mutation({
     });
   },
 });
+
+export const claimsSummary = query({
+  args: {},
+  handler: async (ctx) => {
+    const claims = await ctx.db.query("insuranceClaims").take(200);
+    const counts: Record<string, number> = { submitted: 0, processing: 0, approved: 0, rejected: 0 };
+    let totalAmount = 0, approvedAmount = 0;
+    for (const c of claims) {
+      counts[c.status] = (counts[c.status] || 0) + 1;
+      totalAmount += c.claimAmount;
+      if (c.status === "approved") approvedAmount += c.claimAmount;
+    }
+    return { counts, totalAmount, approvedAmount, total: claims.length };
+  },
+});

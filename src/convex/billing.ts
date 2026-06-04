@@ -49,3 +49,19 @@ export const deleteInvoice = mutation({
     await ctx.db.delete(args.id);
   },
 });
+
+export const summary = query({
+  args: {},
+  handler: async (ctx) => {
+    const invoices = await ctx.db.query("patientInvoices").take(500);
+    let totalBilled = 0, totalPaid = 0, totalPending = 0;
+    let countPaid = 0, countPartial = 0, countUnpaid = 0;
+    for (const inv of invoices) {
+      totalBilled += inv.amount;
+      if (inv.status === "paid") { totalPaid += inv.amount; countPaid++; }
+      else if (inv.status === "partially_paid") { totalPending += inv.amount; countPartial++; }
+      else { totalPending += inv.amount; countUnpaid++; }
+    }
+    return { totalBilled, totalPaid, totalPending, countPaid, countPartial, countUnpaid, total: invoices.length };
+  },
+});

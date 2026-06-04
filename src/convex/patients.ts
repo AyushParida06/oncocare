@@ -108,3 +108,23 @@ export const stats = query({
     };
   },
 });
+
+export const stageBreakdown = query({
+  args: {},
+  handler: async (ctx) => {
+    const patients = await ctx.db.query("patients").take(500);
+    const map: Record<string, Record<string, number>> = {};
+    for (const p of patients) {
+      const type = p.cancerType || "Unknown";
+      const stage = p.cancerStage || "Unknown";
+      if (!map[type]) map[type] = {};
+      map[type][stage] = (map[type][stage] || 0) + 1;
+    }
+    // Also compute per-status counts
+    const statusCounts: Record<string, number> = {};
+    for (const p of patients) {
+      statusCounts[p.status] = (statusCounts[p.status] || 0) + 1;
+    }
+    return { byTypeStage: map, statusCounts };
+  },
+});

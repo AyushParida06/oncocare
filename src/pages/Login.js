@@ -60,25 +60,26 @@ export default function Login() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: isDark ? '#1a1a1a' : '#f4f6f8',
+      background: isDark ? '#12141f' : '#f4f6f8',
       fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
       position: 'relative',
       overflow: 'hidden',
       transition: 'background 0.3s ease'
     }}>
       {/* Decorative background elements */}
-      <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '50vw', height: '50vw', borderRadius: '50%', background: isDark ? 'radial-gradient(circle, rgba(176,35,35,0.08) 0%, rgba(26,26,26,0) 70%)' : 'radial-gradient(circle, rgba(229,62,62,0.05) 0%, rgba(244,246,248,0) 70%)', zIndex: 0 }} />
-      <div style={{ position: 'absolute', bottom: '-15%', right: '-10%', width: '60vw', height: '60vw', borderRadius: '50%', background: isDark ? 'radial-gradient(circle, rgba(1,64,143,0.08) 0%, rgba(26,26,26,0) 70%)' : 'radial-gradient(circle, rgba(59,130,246,0.05) 0%, rgba(244,246,248,0) 70%)', zIndex: 0 }} />
+      <div style={{ position: 'absolute', top: '-10%', left: '-5%', width: '50vw', height: '50vw', borderRadius: '50%', background: isDark ? 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, rgba(18,20,31,0) 70%)' : 'radial-gradient(circle, rgba(59,130,246,0.06) 0%, rgba(244,246,248,0) 70%)', zIndex: 0 }} />
+      <div style={{ position: 'absolute', bottom: '-15%', right: '-10%', width: '60vw', height: '60vw', borderRadius: '50%', background: isDark ? 'radial-gradient(circle, rgba(129,140,248,0.10) 0%, rgba(18,20,31,0) 70%)' : 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, rgba(244,246,248,0) 70%)', zIndex: 0 }} />
+
 
       {/* Theme Toggle */}
       <div onClick={toggleTheme} style={{
         position: 'absolute', top: 24, right: 24, zIndex: 10,
         width: 40, height: 40, borderRadius: '50%',
-        background: isDark ? 'rgba(255,255,255,0.1)' : '#fff',
-        border: `1px solid ${isDark ? '#444' : '#e5e7eb'}`,
+        background: isDark ? 'rgba(255,255,255,0.08)' : '#fff',
+        border: `1px solid ${isDark ? '#2d3148' : '#e5e7eb'}`,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        cursor: 'pointer', color: isDark ? '#f5f5f5' : '#555',
-        boxShadow: isDark ? '0 0 10px rgba(0,0,0,0.5)' : '0 2px 8px rgba(0,0,0,0.05)',
+        cursor: 'pointer', color: isDark ? '#fbbf24' : '#64748b',
+        boxShadow: isDark ? '0 0 10px rgba(0,0,0,0.4)' : '0 2px 8px rgba(0,0,0,0.08)',
         transition: 'all 0.3s ease'
       }}>
         <i className={`ti ${isDark ? 'ti-sun' : 'ti-moon'}`} style={{ fontSize: 20 }} />
@@ -87,12 +88,12 @@ export default function Login() {
       <div style={{
         width: '100%',
         maxWidth: 420,
-        background: isDark ? 'rgba(42,42,42,0.8)' : 'rgba(255,255,255,0.9)',
-        backdropFilter: 'blur(12px)',
-        border: `1px solid ${isDark ? '#444' : '#e5e7eb'}`,
+        background: isDark ? 'rgba(30,32,48,0.92)' : 'rgba(255,255,255,0.95)',
+        backdropFilter: 'blur(16px)',
+        border: `1px solid ${isDark ? '#2d3148' : '#e5e7eb'}`,
         borderRadius: 24,
         padding: '48px 40px',
-        boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.4), 0 0 24px rgba(176,35,35,0.15)' : '0 12px 40px rgba(0,0,0,0.08)',
+        boxShadow: isDark ? '0 8px 40px rgba(0,0,0,0.6), 0 0 32px rgba(99,102,241,0.12)' : '0 12px 40px rgba(0,0,0,0.10)',
         zIndex: 1,
         position: 'relative'
       }}>

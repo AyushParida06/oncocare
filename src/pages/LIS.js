@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
 import { useTheme } from '../context/ThemeContext';
@@ -106,9 +106,9 @@ export default function LIS() {
                 <div style={{ background: isDark ? '#818cf8' : '#4f46e5', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: isDark ? '0 0 12px rgba(129,140,248,0.6)' : 'none' }}>
                   <i className="ti ti-microscope" style={{ fontSize: 18 }} />
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#f5f5f5' : '#111' }}>{l('mod_lis')}</div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#e2e8f0' : '#111' }}>{l('mod_lis')}</div>
               </div>
-              <div style={{ fontSize: 13, color: isDark ? '#ccc' : '#555' }}>
+              <div style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#3a3f5c' }}>
                 {l('desc_lis')}
               </div>
             </div>
@@ -141,26 +141,26 @@ export default function LIS() {
 
       {/* Active Lab Orders Grid */}
       <div style={{
-        background: isDark ? '#1a1a1a' : '#fff',
-        border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+        background: isDark ? '#12141f' : '#fff',
+        border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
         borderRadius: 16,
         padding: 24,
         boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
           <i className="ti ti-activity" style={{ color: isDark ? '#818cf8' : '#4f46e5' }} />
           {l('lis_active_labs')} ({activeLabs.length})
         </div>
         
         {activeLabs.length === 0 ? (
-          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#aaa', fontSize: 14 }}>
+          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#64748b', fontSize: 14 }}>
             No active lab orders found.
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Date</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('lis_test_name')}</th>
@@ -174,7 +174,7 @@ export default function LIS() {
                   const badge = getStatusBadge(lab.status);
                   const nextAction = getNextActionLabel(lab.status);
                   return (
-                    <tr key={lab._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#ddd' : '#333' }}>
+                    <tr key={lab._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#ddd' : '#2d3148' }}>
                       <td style={{ padding: '16px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                           <div style={{ width: 32, height: 32, borderRadius: '50%', background: isDark ? 'rgba(129,140,248,0.1)' : '#eef2ff', color: isDark ? '#818cf8' : '#4f46e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 12 }}>
@@ -186,9 +186,9 @@ export default function LIS() {
                           </div>
                         </div>
                       </td>
-                      <td style={{ padding: '16px', color: isDark ? '#aaa' : '#666' }}>{lab.orderedDate}</td>
+                      <td style={{ padding: '16px', color: isDark ? '#64748b' : '#666' }}>{lab.orderedDate}</td>
                       <td style={{ padding: '16px', fontWeight: 500 }}>{lab.testName}</td>
-                      <td style={{ padding: '16px', color: isDark ? '#aaa' : '#666' }}>{lab.orderedBy}</td>
+                      <td style={{ padding: '16px', color: isDark ? '#64748b' : '#666' }}>{lab.orderedBy}</td>
                       <td style={{ padding: '16px' }}>
                         <span style={{ 
                           background: badge.bg, color: badge.color, border: `1px solid ${badge.border}`,
@@ -224,13 +224,13 @@ export default function LIS() {
       {/* Completed Labs History */}
       {completedLabs.length > 0 && (
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
         }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
             <i className="ti ti-check" style={{ color: isDark ? '#34d399' : '#10b981' }} />
             {l('lis_completed_labs')}
           </div>
@@ -238,7 +238,7 @@ export default function LIS() {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Date</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('lis_test_name')}</th>
@@ -250,14 +250,14 @@ export default function LIS() {
                 {completedLabs.map(lab => {
                   const badge = getStatusBadge(lab.status);
                   return (
-                    <tr key={lab._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#888' : '#777' }}>
+                    <tr key={lab._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#888' : '#777' }}>
                       <td style={{ padding: '16px', fontWeight: 500 }}>{getPatientName(lab.patientId)}</td>
                       <td style={{ padding: '16px' }}>{lab.orderedDate}</td>
                       <td style={{ padding: '16px' }}>{lab.testName}</td>
                       <td style={{ padding: '16px' }}>{lab.orderedBy}</td>
                       <td style={{ padding: '16px' }}>
                         <span style={{ 
-                          background: isDark ? '#333' : '#f9fafb', color: badge.color, border: `1px solid ${isDark ? '#444' : '#eee'}`,
+                          background: isDark ? '#2d3148' : '#f9fafb', color: badge.color, border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
                           padding: '4px 8px', borderRadius: 6, fontSize: 11, fontWeight: 600, textTransform: 'uppercase' 
                         }}>
                           {badge.label}
@@ -280,30 +280,30 @@ export default function LIS() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
         }}>
           <div style={{
-            background: isDark ? '#1a1a1a' : '#fff',
-            border: `1px solid ${isDark ? '#333' : '#eee'}`,
+            background: isDark ? '#12141f' : '#fff',
+            border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
             borderRadius: 16,
             width: '100%',
             maxWidth: 500,
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             overflow: 'hidden'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ fontSize: 18, fontWeight: 600, color: isDark ? '#fff' : '#111' }}>{l('lis_new_order')}</div>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#aaa' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#64748b' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
             </div>
             
             <form onSubmit={handleCreateOrder} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>Select Patient</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>Select Patient</label>
                 <select 
                   required
                   value={formData.patientId} 
                   onChange={e => setFormData({...formData, patientId: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 >
                   <option value="">-- Choose Patient --</option>
@@ -314,31 +314,31 @@ export default function LIS() {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('lis_test_name')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('lis_test_name')}</label>
                 <input 
                   type="text" required placeholder="e.g. Complete Blood Count (CBC)"
                   value={formData.testName} onChange={e => setFormData({...formData, testName: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('lis_ordered_by')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('lis_ordered_by')}</label>
                 <input 
                   type="text" required placeholder="e.g. Dr. Smith"
                   value={formData.orderedBy} onChange={e => setFormData({...formData, orderedBy: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, background: 'transparent', color: isDark ? '#aaa' : '#555', cursor: 'pointer', fontWeight: 500 }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, background: 'transparent', color: isDark ? '#64748b' : '#3a3f5c', cursor: 'pointer', fontWeight: 500 }}>
                   Cancel
                 </button>
                 <button type="submit" style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: isDark ? '#818cf8' : '#4f46e5', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>

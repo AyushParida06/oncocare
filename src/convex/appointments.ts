@@ -81,3 +81,16 @@ export const todayCount = query({
     };
   },
 });
+
+export const typeSummary = query({
+  args: {},
+  handler: async (ctx) => {
+    const appts = await ctx.db.query("appointments").take(500);
+    const byType: Record<string, Record<string, number>> = {};
+    for (const a of appts) {
+      if (!byType[a.type]) byType[a.type] = {};
+      byType[a.type][a.status] = (byType[a.type][a.status] || 0) + 1;
+    }
+    return byType;
+  },
+});

@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'convex/react';
 import { useTheme } from '../context/ThemeContext';
@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import useCountUp from '../hooks/useCountUp';
 import { api } from '../convex/_generated/api';
 
-// Animated number — counts up from 0 to `value` on mount / value change
+// Animated number â€” counts up from 0 to `value` on mount / value change
 function AnimatedValue({ value, color, glow }) {
   const animated = useCountUp(Number(value), 1400);
   return (
@@ -73,20 +73,20 @@ export default function Home() {
   ];
 
   const typeColors   = { chemotherapy: '#FAEEDA', consultation: '#E1F5EE', radiology: '#E6F1FB', lab: '#EEEDFE', followup: '#f4f6f8' };
-  const typeBadge    = { chemotherapy: '#854F0B', consultation: '#0F6E56', radiology: '#185FA5', lab: '#534AB7', followup: '#555'    };
+  const typeBadge    = { chemotherapy: '#854F0B', consultation: '#0F6E56', radiology: '#185FA5', lab: '#534AB7', followup: '#3a3f5c'    };
 
   // Theme-aware styles
-  const cardBg     = isDark ? '#2a2a2a' : '#fff';
-  const cardBorder = isDark ? '#444'    : '#e5e7eb';
-  const textMain   = isDark ? '#f5f5f5' : '#111';
-  const textMuted  = isDark ? '#aaa'    : '#888';
-  const textSub    = isDark ? '#ccc'    : '#333';
-  const hoverBg    = isDark ? '#333'    : '#f9fafb';
-  const sectionBorder = isDark ? '#3a3a3a' : '#f4f6f8';
+  const cardBg     = isDark ? '#1e2030' : '#fff';
+  const cardBorder = isDark ? '#2d3148'    : '#e5e7eb';
+  const textMain   = isDark ? '#e2e8f0' : '#111';
+  const textMuted  = isDark ? '#64748b'    : '#888';
+  const textSub    = isDark ? '#94a3b8'    : '#2d3148';
+  const hoverBg    = isDark ? '#2d3148'    : '#f9fafb';
+  const sectionBorder = isDark ? '#2d3148' : '#f4f6f8';
 
   // Glowing effect for numbers in dark mode
   const numberGlow = isDark
-    ? { textShadow: '0 0 8px rgba(29,158,117,0.9), 0 0 16px rgba(29,158,117,0.5)' }
+    ? { textShadow: '0 0 8px rgba(29,158,117,0.9), 0 0 16px rgba(99,102,241,0.35)' }
     : {};
 
   // statValueGlow is now per-stat using s.glowColor
@@ -95,7 +95,7 @@ export default function Home() {
     background: cardBg,
     border: `0.5px solid ${cardBorder}`,
     borderRadius: 12,
-    boxShadow: isDark ? '0 0 12px rgba(29,158,117,0.15)' : 'none',
+    boxShadow: isDark ? '0 0 12px rgba(99,102,241,0.10)' : 'none',
     transition: 'background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
   };
 
@@ -116,7 +116,7 @@ export default function Home() {
             <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600 }}>DR</div>
             <div>
               <div style={{ fontSize: 18, fontWeight: 600 }}>Hi, Dr. Ramesh K</div>
-              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Senior Oncologist · {today}</div>
+              <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Senior Oncologist Â· {today}</div>
             </div>
           </div>
           <div style={{ background: 'rgba(255,255,255,0.15)', border: '0.5px solid rgba(255,255,255,0.3)', borderRadius: 8, padding: '8px 14px', fontSize: 13, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -138,7 +138,7 @@ export default function Home() {
                 <div style={{ fontSize: 11, color: textMuted, marginBottom: 6 }}>{s.label}</div>
                 <div style={{ fontSize: 24, fontWeight: 700 }}>
                   {patientStats === undefined
-                    ? <span style={{ fontSize: 14, color: '#aaa' }}>Loading…</span>
+                    ? <span style={{ fontSize: 14, color: '#64748b' }}>Loadingâ€¦</span>
                     : <AnimatedValue value={s.value} color={s.numColor} glow={valGlow} />}
                 </div>
                 <div style={{ fontSize: 11, marginTop: 4, color: s.subColor, ...subGlow }}>{s.sub}</div>
@@ -154,8 +154,8 @@ export default function Home() {
             {getModules(l).map(m => (
               <div key={m.path} onClick={() => navigate(m.path)}
                 style={{ ...cardStyle, padding: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, transition: 'background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.background = hoverBg; e.currentTarget.style.transform = 'translateY(-1px)'; if (isDark) e.currentTarget.style.boxShadow = '0 0 18px rgba(29,158,117,0.35)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = cardBg;  e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = isDark ? '0 0 12px rgba(29,158,117,0.15)' : 'none'; }}
+                onMouseEnter={e => { e.currentTarget.style.background = hoverBg; e.currentTarget.style.transform = 'translateY(-1px)'; if (isDark) e.currentTarget.style.boxShadow = '0 0 18px rgba(99,102,241,0.25)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = cardBg;  e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = isDark ? '0 0 12px rgba(99,102,241,0.10)' : 'none'; }}
               >
                 <div style={{ width: 38, height: 38, borderRadius: 8, background: isDark ? 'rgba(255,255,255,0.08)' : m.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, color: isDark ? '#7dd3b8' : m.iconColor, flexShrink: 0, boxShadow: isDark ? `0 0 8px ${m.iconColor}44` : 'none' }}>
                   <i className={`ti ${m.icon}`} />
@@ -181,11 +181,11 @@ export default function Home() {
         <div style={sideCard}>
           <div style={{ ...sideTitle, color: '#0F6E56' }}><i className="ti ti-calendar-event" style={{ color: '#0F6E56' }} /> Today's Appointments</div>
           {!todayAppts || todayAppts.length === 0 ? (
-            <div style={{ fontSize: 12, color: textMuted }}>{todayAppts === undefined ? 'Loading…' : 'No appointments today'}</div>
+            <div style={{ fontSize: 12, color: textMuted }}>{todayAppts === undefined ? 'Loadingâ€¦' : 'No appointments today'}</div>
           ) : todayAppts.slice(0, 4).map((a, i) => (
             <div key={i} style={{ paddingBottom: 10, marginBottom: 10, borderBottom: i < Math.min(todayAppts.length, 4) - 1 ? `0.5px solid ${cardBorder}` : 'none' }}>
               <div style={{ fontSize: 12, fontWeight: 600, color: textMain }}>{a.patientId}</div>
-              <div style={{ fontSize: 11, color: textMuted, marginTop: 2 }}>⏱ {a.time}</div>
+              <div style={{ fontSize: 11, color: textMuted, marginTop: 2 }}>â± {a.time}</div>
               <span style={{ display: 'inline-block', marginTop: 4, padding: '2px 8px', borderRadius: 20, fontSize: 10, fontWeight: 500, background: isDark ? 'rgba(255,255,255,0.08)' : (typeColors[a.type] || '#f4f6f8'), color: typeBadge[a.type] || textMuted }}>{a.type}</span>
             </div>
           ))}
@@ -193,11 +193,11 @@ export default function Home() {
 
         <div style={sideCard}>
           <div style={{ ...sideTitle, color: '#0F6E56' }}><i className="ti ti-clipboard-check" style={{ color: '#0F6E56' }} /> Roster</div>
-          <div style={{ fontSize: 12, color: '#1D9E75', display: 'flex', alignItems: 'center', gap: 6, ...(isDark ? { textShadow: '0 0 6px rgba(29,158,117,0.8)' } : {}) }}><i className="ti ti-circle-check" /> Shift: 8:00 AM – 4:00 PM</div>
-          <div style={{ fontSize: 11, color: textMuted, marginTop: 8 }}>Oncology Ward B · 6 staff on duty</div>
+          <div style={{ fontSize: 12, color: '#1D9E75', display: 'flex', alignItems: 'center', gap: 6, ...(isDark ? { textShadow: '0 0 6px rgba(29,158,117,0.8)' } : {}) }}><i className="ti ti-circle-check" /> Shift: 8:00 AM â€“ 4:00 PM</div>
+          <div style={{ fontSize: 11, color: textMuted, marginTop: 8 }}>Oncology Ward B Â· 6 staff on duty</div>
         </div>
 
-        <div style={{ textAlign: 'center', fontSize: 10, color: textMuted, paddingTop: 4 }}><span style={{ color: '#B02323' }}>Vista</span><span style={{ color: '#01408F' }}>Onco</span> HMS v1.0.0 · © 2026</div>
+        <div style={{ textAlign: 'center', fontSize: 10, color: textMuted, paddingTop: 4 }}><span style={{ color: '#B02323' }}>Vista</span><span style={{ color: '#01408F' }}>Onco</span> HMS v1.0.0 Â· Â© 2026</div>
       </div>
     </div>
   );

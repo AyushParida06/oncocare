@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import PharmacyMgmt from './PharmacyMgmt';
 
 export default function ClinicalPharmacy() {

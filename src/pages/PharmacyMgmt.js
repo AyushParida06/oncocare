@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../convex/_generated/api';
 import { useTheme } from '../context/ThemeContext';
@@ -82,9 +82,9 @@ export default function PharmacyMgmt() {
             <div style={{ background: isDark ? '#a78bfa' : '#8b5cf6', color: '#fff', width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: isDark ? '0 0 12px rgba(167,139,250,0.6)' : 'none' }}>
               <i className="ti ti-prescription" style={{ fontSize: 18 }} />
             </div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#f5f5f5' : '#111' }}>{l('mod_pharmacy')}</div>
+            <div style={{ fontSize: 20, fontWeight: 700, color: isDark ? '#e2e8f0' : '#111' }}>{l('mod_pharmacy')}</div>
           </div>
-          <div style={{ fontSize: 13, color: isDark ? '#ccc' : '#555', maxWidth: 500 }}>
+          <div style={{ fontSize: 13, color: isDark ? '#94a3b8' : '#3a3f5c', maxWidth: 500 }}>
             {l('desc_pharmacy')}
           </div>
         </div>
@@ -115,26 +115,26 @@ export default function PharmacyMgmt() {
 
       {/* Active Orders Grid */}
       <div style={{
-        background: isDark ? '#1a1a1a' : '#fff',
-        border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+        background: isDark ? '#12141f' : '#fff',
+        border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
         borderRadius: 16,
         padding: 24,
         boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
       }}>
-        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
           <i className="ti ti-activity" style={{ color: isDark ? '#a78bfa' : '#8b5cf6' }} />
           {l('pharmacy_active')} ({activeOrders.length})
         </div>
         
         {activeOrders.length === 0 ? (
-          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#aaa', fontSize: 14 }}>
+          <div style={{ padding: 40, textAlign: 'center', color: isDark ? '#888' : '#64748b', fontSize: 14 }}>
             No active orders found.
           </div>
         ) : (
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('pharmacy_medication')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('pharmacy_dosage')}</th>
@@ -145,7 +145,7 @@ export default function PharmacyMgmt() {
               </thead>
               <tbody>
                 {activeOrders.map(o => (
-                  <tr key={o._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#ddd' : '#333' }}>
+                  <tr key={o._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#ddd' : '#2d3148' }}>
                     <td style={{ padding: '16px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{ width: 32, height: 32, borderRadius: '50%', background: isDark ? 'rgba(167,139,250,0.1)' : '#f5f3ff', color: isDark ? '#a78bfa' : '#8b5cf6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 600, fontSize: 12 }}>
@@ -210,21 +210,21 @@ export default function PharmacyMgmt() {
       {/* Dispensed History */}
       {historyOrders.length > 0 && (
         <div style={{
-          background: isDark ? '#1a1a1a' : '#fff',
-          border: `0.5px solid ${isDark ? '#333' : '#eee'}`,
+          background: isDark ? '#12141f' : '#fff',
+          border: `0.5px solid ${isDark ? '#2d3148' : '#eee'}`,
           borderRadius: 16,
           padding: 24,
           boxShadow: isDark ? '0 0 20px rgba(0,0,0,0.5)' : '0 4px 15px rgba(0,0,0,0.03)'
         }}>
-          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#f5f5f5' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-            <i className="ti ti-history" style={{ color: isDark ? '#aaa' : '#666' }} />
+          <div style={{ fontSize: 16, fontWeight: 600, color: isDark ? '#e2e8f0' : '#111', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <i className="ti ti-history" style={{ color: isDark ? '#64748b' : '#666' }} />
             {l('pharmacy_history')}
           </div>
           
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
-                <tr style={{ borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, color: isDark ? '#aaa' : '#666', textAlign: 'left' }}>
+                <tr style={{ borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, color: isDark ? '#64748b' : '#666', textAlign: 'left' }}>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>Patient</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('pharmacy_medication')}</th>
                   <th style={{ padding: '12px 16px', fontWeight: 500 }}>{l('pharmacy_dosage')}</th>
@@ -234,7 +234,7 @@ export default function PharmacyMgmt() {
               </thead>
               <tbody>
                 {historyOrders.map(o => (
-                  <tr key={o._id} style={{ borderBottom: `1px solid ${isDark ? '#222' : '#f5f5f5'}`, color: isDark ? '#888' : '#777' }}>
+                  <tr key={o._id} style={{ borderBottom: `1px solid ${isDark ? '#16182a' : '#e2e8f0'}`, color: isDark ? '#888' : '#777' }}>
                     <td style={{ padding: '16px', fontWeight: 500 }}>{getPatientName(o.patientId)}</td>
                     <td style={{ padding: '16px' }}>{o.medication}</td>
                     <td style={{ padding: '16px' }}>{o.dosage}</td>
@@ -259,30 +259,30 @@ export default function PharmacyMgmt() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
         }}>
           <div style={{
-            background: isDark ? '#1a1a1a' : '#fff',
-            border: `1px solid ${isDark ? '#333' : '#eee'}`,
+            background: isDark ? '#12141f' : '#fff',
+            border: `1px solid ${isDark ? '#2d3148' : '#eee'}`,
             borderRadius: 16,
             width: '100%',
             maxWidth: 500,
             boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
             overflow: 'hidden'
           }}>
-            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#333' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ padding: '20px 24px', borderBottom: `1px solid ${isDark ? '#2d3148' : '#eee'}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ fontSize: 18, fontWeight: 600, color: isDark ? '#fff' : '#111' }}>{l('pharmacy_new_order')}</div>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#aaa' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: isDark ? '#64748b' : '#666', cursor: 'pointer', fontSize: 20 }}>&times;</button>
             </div>
             
             <form onSubmit={handleAddOrder} style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('inpatient_select_patient')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('inpatient_select_patient')}</label>
                 <select 
                   required
                   value={formData.patientId} 
                   onChange={e => setFormData({...formData, patientId: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 >
                   <option value="">-- {l('inpatient_select_patient')} --</option>
@@ -293,44 +293,44 @@ export default function PharmacyMgmt() {
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('pharmacy_medication')}</label>
+                <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('pharmacy_medication')}</label>
                 <input 
                   type="text" required placeholder="e.g. Doxorubicin"
                   value={formData.medication} onChange={e => setFormData({...formData, medication: e.target.value})}
                   style={{ 
-                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                    background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                    padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                    background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                   }}
                 />
               </div>
 
               <div style={{ display: 'flex', gap: 16 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-                  <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('pharmacy_dosage')}</label>
+                  <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('pharmacy_dosage')}</label>
                   <input 
                     type="text" required placeholder="e.g. 50mg"
                     value={formData.dosage} onChange={e => setFormData({...formData, dosage: e.target.value})}
                     style={{ 
-                      padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                      background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                      padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                      background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                     }}
                   />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
-                  <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#aaa' : '#555' }}>{l('pharmacy_frequency')}</label>
+                  <label style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#64748b' : '#3a3f5c' }}>{l('pharmacy_frequency')}</label>
                   <input 
                     type="text" required placeholder="e.g. Once daily"
                     value={formData.frequency} onChange={e => setFormData({...formData, frequency: e.target.value})}
                     style={{ 
-                      padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, 
-                      background: isDark ? '#222' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
+                      padding: 12, borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, 
+                      background: isDark ? '#16182a' : '#f9fafb', color: isDark ? '#fff' : '#111', fontSize: 14, outline: 'none' 
                     }}
                   />
                 </div>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, marginTop: 10 }}>
-                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#444' : '#ddd'}`, background: 'transparent', color: isDark ? '#aaa' : '#555', cursor: 'pointer', fontWeight: 500 }}>
+                <button type="button" onClick={() => setShowModal(false)} style={{ padding: '10px 16px', borderRadius: 8, border: `1px solid ${isDark ? '#2d3148' : '#ddd'}`, background: 'transparent', color: isDark ? '#64748b' : '#3a3f5c', cursor: 'pointer', fontWeight: 500 }}>
                   {l('btn_cancel')}
                 </button>
                 <button type="submit" style={{ padding: '10px 16px', borderRadius: 8, border: 'none', background: isDark ? '#a78bfa' : '#8b5cf6', color: '#fff', cursor: 'pointer', fontWeight: 600 }}>
