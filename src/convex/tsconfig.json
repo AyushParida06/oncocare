@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "strict": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "target": "ESNext",

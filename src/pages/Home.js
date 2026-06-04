@@ -2,22 +2,35 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'convex/react';
 import { useTheme } from '../context/ThemeContext';
-
+import { useLanguage } from '../context/LanguageContext';
+import useCountUp from '../hooks/useCountUp';
 import { api } from '../convex/_generated/api';
 
-const modules = [
-  { path: '/outpatient',      icon: 'ti-stethoscope',    label: 'Outpatient Consultation', desc: 'OPD visits & follow-ups',          color: '#E1F5EE', iconColor: '#0F6E56' },
-  { path: '/chemotherapy',    icon: 'ti-pill',            label: 'Chemotherapy',             desc: 'Cycles, protocols & dosing',       color: '#FAEEDA', iconColor: '#854F0B' },
-  { path: '/radiology',       icon: 'ti-radioactive',     label: 'Radiology & Imaging',      desc: 'CT, MRI, PET scans',               color: '#E6F1FB', iconColor: '#185FA5' },
-  { path: '/lab-results',     icon: 'ti-microscope',      label: 'Lab Results',              desc: 'CBC, tumour markers, biopsies',    color: '#EEEDFE', iconColor: '#534AB7' },
-  { path: '/appointments',    icon: 'ti-calendar-event',  label: 'Appointment Booking',      desc: 'Schedule & manage visits',         color: '#FAECE7', iconColor: '#993C1D' },
-  { path: '/inpatient',       icon: 'ti-bed',             label: 'Inpatient / Admission',    desc: 'ADT & bed management',             color: '#EAF3DE', iconColor: '#3B6D11' },
-  { path: '/emergency',       icon: 'ti-urgent',          label: 'Emergency Dept.',          desc: 'Urgent oncology cases',            color: '#FCEBEB', iconColor: '#A32D2D' },
-  { path: '/pharmacy',        icon: 'ti-pill',            label: 'Pharmacy',                 desc: 'Chemo drugs & prescriptions',      color: '#FBEAF0', iconColor: '#993556' },
-  { path: '/billing',         icon: 'ti-receipt',         label: 'Billing & Insurance',      desc: 'Invoices & claims',                color: '#f4f6f8', iconColor: '#555'    },
-  { path: '/tumour-registry', icon: 'ti-dna',             label: 'Tumour Registry',          desc: 'Cancer staging & tracking',        color: '#E1F5EE', iconColor: '#0F6E56' },
-  { path: '/clinical-trials', icon: 'ti-activity',        label: 'Clinical Trials',          desc: 'Trial enrolment & data',           color: '#E6F1FB', iconColor: '#185FA5' },
-  { path: '/palliative-care', icon: 'ti-heart-handshake', label: 'Palliative Care',          desc: 'Pain & end-of-life support',       color: '#EEEDFE', iconColor: '#534AB7' },
+// Animated number — counts up from 0 to `value` on mount / value change
+function AnimatedValue({ value, color, glow }) {
+  const animated = useCountUp(Number(value), 1400);
+  return (
+    <span style={{ color, ...glow }}>
+      {animated}
+    </span>
+  );
+}
+
+const getModules = (l) => [
+  // Clinical Care
+  { path: '/outpatient',       icon: 'ti-stethoscope', label: l('mod_outpatient'),                desc: l('desc_outpatient'),             color: '#E1F5EE', iconColor: '#0F6E56' },
+  { path: '/inpatient',        icon: 'ti-bed',         label: l('mod_inpatient'),                 desc: l('desc_inpatient'),              color: '#EAF3DE', iconColor: '#3B6D11' },
+  { path: '/nursing',          icon: 'ti-user',        label: l('mod_nursing'),                   desc: l('desc_nursing'),                color: '#E1F5EE', iconColor: '#0F6E56' },
+  { path: '/clinical-pharmacy',icon: 'ti-pill',        label: l('mod_clinical_pharm'),            desc: l('desc_clinical_pharm'),         color: '#FAEEDA', iconColor: '#854F0B' },
+  { path: '/tumor-board',      icon: 'ti-users',       label: l('mod_tumor_board'),               desc: l('desc_tumor_board'),            color: '#EEEDFE', iconColor: '#534AB7' },
+  { path: '/clinical-quality', icon: 'ti-chart-bar',   label: l('mod_quality'),                   desc: l('desc_quality'),                color: '#E6F1FB', iconColor: '#185FA5' },
+  // Diagnostics & Pharmacy
+  { path: '/lis',              icon: 'ti-microscope',  label: l('mod_lis'),                       desc: l('desc_lis'),                    color: '#FBEAF0', iconColor: '#993556' },
+  { path: '/ris',              icon: 'ti-camera',      label: l('mod_ris'),                       desc: l('desc_ris'),                    color: '#EAF3DE', iconColor: '#3B6D11' },
+  { path: '/pharmacy-mgmt',    icon: 'ti-package',     label: l('mod_pharmacy'),                  desc: l('desc_pharmacy'),               color: '#E1F5EE', iconColor: '#0F6E56' },
+  // Patient Flow & Billing
+  { path: '/patient-billing',  icon: 'ti-receipt',     label: l('mod_patient_billing'),           desc: l('desc_patient_billing'),        color: '#FCEBEB', iconColor: '#A32D2D' },
+  { path: '/revenue-cycle',    icon: 'ti-chart-pie',   label: l('mod_revenue_cycle'),             desc: l('desc_revenue_cycle'),          color: '#FAEEDA', iconColor: '#854F0B' },
 ];
 
 const FALLBACK_STATS = { total: 0, active: 0 };
@@ -28,6 +41,7 @@ const FALLBACK_ADMIT = 0;
 export default function Home() {
   const navigate  = useNavigate();
   const { theme } = useTheme();
+  const { t: l } = useLanguage();
   const isDark    = theme === 'dark';
   const today     = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -43,11 +57,19 @@ export default function Home() {
   const cc = chemoCount   || FALLBACK_CHEMO;
   const ip = inpatients   ?? FALLBACK_ADMIT;
 
+  // Vibrant colors per stat (numColor = big number, glowColor = glow shadow)
+  const statMeta = [
+    { numColor: isDark ? '#4ade80' : '#111', glowColor: '74,222,128',  subColor: '#1D9E75' }, // green
+    { numColor: isDark ? '#fb923c' : '#111', glowColor: '251,146,60',  subColor: '#BA7517' }, // orange
+    { numColor: isDark ? '#60a5fa' : '#111', glowColor: '96,165,250',  subColor: '#1D9E75' }, // blue
+    { numColor: isDark ? '#e879f9' : '#111', glowColor: '232,121,249', subColor: '#888'    }, // purple
+  ];
+
   const stats = [
-    { label: 'Active Patients',        value: String(ps.active ?? ps.total ?? 0), sub: `${ps.total ?? 0} total registered`,       subColor: '#1D9E75' },
-    { label: 'Chemo Sessions Today',   value: String(cc.total  ?? 0),             sub: `${cc.pending ?? 0} pending`,               subColor: '#BA7517' },
-    { label: 'Appointments Today',     value: String(ac.total  ?? 0),             sub: `${ac.confirmed ?? 0} confirmed`,           subColor: '#1D9E75' },
-    { label: 'Inpatients',             value: String(ip),                          sub: 'Currently admitted',                       subColor: '#888'    },
+    { label: 'Active Patients',        value: String(ps.active ?? ps.total ?? 0), sub: `${ps.total ?? 0} total registered`,  ...statMeta[0] },
+    { label: 'Chemo Sessions Today',   value: String(cc.total  ?? 0),             sub: `${cc.pending ?? 0} pending`,          ...statMeta[1] },
+    { label: 'Appointments Today',     value: String(ac.total  ?? 0),             sub: `${ac.confirmed ?? 0} confirmed`,      ...statMeta[2] },
+    { label: 'Inpatients',             value: String(ip),                          sub: 'Currently admitted',                  ...statMeta[3] },
   ];
 
   const typeColors   = { chemotherapy: '#FAEEDA', consultation: '#E1F5EE', radiology: '#E6F1FB', lab: '#EEEDFE', followup: '#f4f6f8' };
@@ -67,9 +89,7 @@ export default function Home() {
     ? { textShadow: '0 0 8px rgba(29,158,117,0.9), 0 0 16px rgba(29,158,117,0.5)' }
     : {};
 
-  const statValueGlow = isDark
-    ? { textShadow: '0 0 10px rgba(255,255,255,0.7), 0 0 20px rgba(29,158,117,0.6)' }
-    : {};
+  // statValueGlow is now per-stat using s.glowColor
 
   const cardStyle = {
     background: cardBg,
@@ -106,22 +126,32 @@ export default function Home() {
 
         {/* Live stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
-          {stats.map(s => (
-            <div key={s.label} style={{ ...cardStyle, padding: '14px 16px' }}>
-              <div style={{ fontSize: 11, color: textMuted, marginBottom: 6 }}>{s.label}</div>
-              <div style={{ fontSize: 24, fontWeight: 600, color: textMain, ...statValueGlow }}>
-                {patientStats === undefined ? <span style={{ fontSize: 14, color: '#aaa' }}>Loading…</span> : s.value}
+          {stats.map(s => {
+            const valGlow = isDark
+              ? { textShadow: `0 0 10px rgba(${s.glowColor},0.9), 0 0 22px rgba(${s.glowColor},0.5)` }
+              : {};
+            const subGlow = isDark
+              ? { textShadow: `0 0 6px rgba(${s.glowColor},0.7)` }
+              : {};
+            return (
+              <div key={s.label} style={{ ...cardStyle, padding: '14px 16px' }}>
+                <div style={{ fontSize: 11, color: textMuted, marginBottom: 6 }}>{s.label}</div>
+                <div style={{ fontSize: 24, fontWeight: 700 }}>
+                  {patientStats === undefined
+                    ? <span style={{ fontSize: 14, color: '#aaa' }}>Loading…</span>
+                    : <AnimatedValue value={s.value} color={s.numColor} glow={valGlow} />}
+                </div>
+                <div style={{ fontSize: 11, marginTop: 4, color: s.subColor, ...subGlow }}>{s.sub}</div>
               </div>
-              <div style={{ fontSize: 11, marginTop: 4, color: s.subColor, ...numberGlow }}>{s.sub}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Modules grid */}
         <div>
           <div style={{ fontSize: 13, fontWeight: 600, color: textMain, marginBottom: 10 }}>Modules</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
-            {modules.map(m => (
+            {getModules(l).map(m => (
               <div key={m.path} onClick={() => navigate(m.path)}
                 style={{ ...cardStyle, padding: 14, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, transition: 'background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease' }}
                 onMouseEnter={e => { e.currentTarget.style.background = hoverBg; e.currentTarget.style.transform = 'translateY(-1px)'; if (isDark) e.currentTarget.style.boxShadow = '0 0 18px rgba(29,158,117,0.35)'; }}
@@ -167,7 +197,7 @@ export default function Home() {
           <div style={{ fontSize: 11, color: textMuted, marginTop: 8 }}>Oncology Ward B · 6 staff on duty</div>
         </div>
 
-        <div style={{ textAlign: 'center', fontSize: 10, color: textMuted, paddingTop: 4 }}>OncoCare HMS v1.0.0 · © 2026</div>
+        <div style={{ textAlign: 'center', fontSize: 10, color: textMuted, paddingTop: 4 }}><span style={{ color: '#B02323' }}>Vista</span><span style={{ color: '#01408F' }}>Onco</span> HMS v1.0.0 · © 2026</div>
       </div>
     </div>
   );

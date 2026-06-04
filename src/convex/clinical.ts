@@ -34,3 +34,13 @@ export const activeAdmissionsCount = query({
     return s.activeAdmissionsCount;
   },
 });
+
+export const updateLabStatus = mutation({
+  args: {
+    id: v.id("labs"),
+    status: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { status: args.status });
+  },
+});
