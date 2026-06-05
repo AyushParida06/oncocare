@@ -1,0 +1,156 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(15,110,86,.15) 0%,rgba(15,110,86,.05) 100%)' : 'linear-gradient(135deg,#e1f5ee 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(15,110,86,.4)' : '#c2e7d9')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-package" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_pharmacy') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_pharmacy') }}</div>
+    </div>
+    <button (click)="showModal.set(true)"
+            [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'"
+            [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+            [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'">
+      <i class="ti ti-plus"></i> {{ t('pharmacy_new_order') }}
+    </button>
+  </div>
+
+  <!-- Active Orders -->
+  <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px'">
+    <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">
+      {{ t('pharmacy_active') }} ({{ active.length }})
+    </div>
+
+    @if (active.length === 0) {
+      <div [style.padding]="'40px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'" [style.fontSize]="'14px'">
+        No active pharmacy orders.
+      </div>
+    } @else {
+      <table [style.width]="'100%'" [style.borderCollapse]="'collapse'" [style.fontSize]="'14px'">
+        <thead>
+          <tr [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.color]="isDark ? '#64748b' : '#666'" [style.textAlign]="'left'">
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Patient</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('pharmacy_medication') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('pharmacy_dosage') }} / {{ t('pharmacy_frequency') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Status</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ord of active; track ord._id) {
+            <tr [style.borderBottom]="'1px solid ' + (isDark ? '#16182a' : '#e2e8f0')" [style.color]="isDark ? '#ddd' : '#2d3148'">
+              <td [style.padding]="'16px'">
+                <div [style.fontWeight]="'500'">{{ getPatientName(ord.patientId) }}</div>
+                <div [style.fontSize]="'12px'" [style.color]="isDark ? '#888' : '#888'">{{ getPatientMRN(ord.patientId) }}</div>
+              </td>
+              <td [style.padding]="'16px'">{{ ord.medication }}</td>
+              <td [style.padding]="'16px'">{{ ord.dosage }} / {{ ord.frequency }}</td>
+              <td [style.padding]="'16px'">
+                <span [style.background]="ord.status === 'pending' ? (isDark ? 'rgba(245,158,11,.1)' : '#fffbeb') : (isDark ? 'rgba(59,130,246,.1)' : '#eff6ff')" 
+                      [style.color]="ord.status === 'pending' ? (isDark ? '#fbbf24' : '#d97706') : (isDark ? '#60a5fa' : '#2563eb')" 
+                      [style.padding]="'4px 8px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'" [style.textTransform]="'capitalize'">
+                  {{ ord.status }}
+                </span>
+              </td>
+              <td [style.padding]="'16px'">
+                @if (ord.status === 'pending') {
+                  <button (click)="verify(ord._id)" [style.background]="isDark ? 'rgba(59,130,246,.1)' : '#eff6ff'" [style.color]="isDark ? '#60a5fa' : '#2563eb'" [style.border]="'1px solid ' + (isDark ? 'rgba(59,130,246,.3)' : '#bfdbfe')" [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.cursor]="'pointer'">{{ t('pharmacy_verify') }}</button>
+                }
+                @if (ord.status === 'verified') {
+                  <button (click)="dispense(ord._id)" [style.background]="isDark ? 'rgba(16,185,129,.1)' : '#ecfdf5'" [style.color]="isDark ? '#34d399' : '#059669'" [style.border]="'1px solid ' + (isDark ? 'rgba(16,185,129,.3)' : '#a7f3d0')" [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.cursor]="'pointer'">{{ t('pharmacy_dispense') }}</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- History -->
+  @if (history.length > 0) {
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">
+        {{ t('pharmacy_history') }}
+      </div>
+      <table [style.width]="'100%'" [style.borderCollapse]="'collapse'" [style.fontSize]="'14px'">
+        <thead>
+          <tr [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.color]="isDark ? '#64748b' : '#666'" [style.textAlign]="'left'">
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Patient</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('pharmacy_medication') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ord of history; track ord._id) {
+            <tr [style.borderBottom]="'1px solid ' + (isDark ? '#16182a' : '#e2e8f0')" [style.color]="isDark ? '#888' : '#777'">
+              <td [style.padding]="'16px'">{{ getPatientName(ord.patientId) }}</td>
+              <td [style.padding]="'16px'">{{ ord.medication }}</td>
+              <td [style.padding]="'16px'">{{ ord.orderedDate }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Order Modal -->
+  @if (showModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'"
+         [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'"
+         [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+           [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'500px'" [style.overflow]="'hidden'">
+        <div [style.padding]="'20px 24px'" [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+          <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'">{{ t('pharmacy_new_order') }}</div>
+          <button (click)="showModal.set(false)" [style.background]="'none'" [style.border]="'none'" [style.color]="isDark ? '#64748b' : '#666'" [style.cursor]="'pointer'" [style.fontSize]="'20px'">&times;</button>
+        </div>
+        <form (ngSubmit)="addOrder()" [style.padding]="'24px'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'16px'">
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Patient</label>
+            <select required [ngModel]="form().patientId" (ngModelChange)="form.set({...form(), patientId: $event})" name="patientId"
+                    [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                    [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'">
+              <option value="">-- Select Patient --</option>
+              @for (p of patients(); track p._id) { <option [value]="p._id">{{ p.firstName }} {{ p.lastName }} ({{ p.mrn }})</option> }
+            </select>
+          </div>
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Medication</label>
+            <input type="text" required [ngModel]="form().medication" (ngModelChange)="form.set({...form(), medication: $event})" name="medication"
+                   [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                   [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+          </div>
+          <div [style.display]="'flex'" [style.gap]="'16px'">
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'" [style.flex]="'1'">
+              <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Dosage</label>
+              <input type="text" required [ngModel]="form().dosage" (ngModelChange)="form.set({...form(), dosage: $event})" name="dosage"
+                     [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                     [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+            </div>
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'" [style.flex]="'1'">
+              <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Frequency</label>
+              <input type="text" required [ngModel]="form().frequency" (ngModelChange)="form.set({...form(), frequency: $event})" name="frequency"
+                     [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                     [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+            </div>
+          </div>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showModal.set(false)" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#3a3f5c'" [style.cursor]="'pointer'" [style.fontWeight]="'500'">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'none'" [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'" [style.cursor]="'pointer'" [style.fontWeight]="'600'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

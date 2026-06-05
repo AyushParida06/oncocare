@@ -64,6 +64,13 @@ export const addNote = mutation({
   },
 });
 
+export const getCarePlans = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("oncologyCarePlans").collect();
+  },
+});
+
 export const addCarePlan = mutation({
   args: {
     patientId: v.id("patients"),

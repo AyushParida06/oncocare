@@ -1,0 +1,209 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(15,110,86,.15) 0%,rgba(15,110,86,.05) 100%)' : 'linear-gradient(135deg,#e1f5ee 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(15,110,86,.4)' : '#c2e7d9')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-stethoscope" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_outpatient') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_outpatient') }}</div>
+    </div>
+    <div [style.display]="'flex'" [style.gap]="'12px'">
+      <button (click)="showPatientModal.set(true)" class="interactive-btn"
+              [style.background]="isDark ? '#3b82f6' : '#2563eb'" [style.color]="'#fff'"
+              [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+              [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'"
+              [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'8px'">
+        <i class="ti ti-user-plus"></i> Register Patient
+      </button>
+      <button (click)="showModal.set(true)" class="interactive-btn"
+              [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'"
+              [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+              [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'"
+              [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'8px'">
+        <i class="ti ti-plus"></i> New Appointment
+      </button>
+    </div>
+  </div>
+
+  <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px'">
+    <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">
+      Today's Appointments ({{ appointments().length }})
+    </div>
+
+    @if (appointments().length === 0) {
+      <div [style.padding]="'40px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'" [style.fontSize]="'14px'">
+        No appointments scheduled for today.
+      </div>
+    } @else {
+      <table [style.width]="'100%'" [style.borderCollapse]="'collapse'" [style.fontSize]="'14px'">
+        <thead>
+          <tr [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.color]="isDark ? '#64748b' : '#666'" [style.textAlign]="'left'">
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Time</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Patient</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Type</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Status</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (app of appointments(); track app._id) {
+            <tr [style.borderBottom]="'1px solid ' + (isDark ? '#16182a' : '#e2e8f0')" [style.color]="isDark ? '#ddd' : '#2d3148'">
+              <td [style.padding]="'16px'">{{ app.time }}</td>
+              <td [style.padding]="'16px'" [style.fontWeight]="'500'">{{ getPatientName(app.patientId) }}</td>
+              <td [style.padding]="'16px'" [style.textTransform]="'capitalize'">{{ app.type }}</td>
+              <td [style.padding]="'16px'" [style.textTransform]="'capitalize'">{{ app.status }}</td>
+              <td [style.padding]="'16px'">
+                @if (app.status === 'scheduled') {
+                  <button (click)="updateStatus(app._id, 'confirmed')"
+                          [style.background]="isDark ? 'rgba(59,130,246,.1)' : '#eff6ff'"
+                          [style.color]="isDark ? '#60a5fa' : '#2563eb'"
+                          [style.border]="'1px solid ' + (isDark ? 'rgba(59,130,246,.3)' : '#bfdbfe')"
+                          [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'"
+                          [style.fontWeight]="'600'" [style.cursor]="'pointer'">Confirm</button>
+                }
+                @if (app.status === 'confirmed') {
+                  <button (click)="updateStatus(app._id, 'completed')"
+                          [style.background]="isDark ? 'rgba(16,185,129,.1)' : '#ecfdf5'"
+                          [style.color]="isDark ? '#34d399' : '#059669'"
+                          [style.border]="'1px solid ' + (isDark ? 'rgba(16,185,129,.3)' : '#a7f3d0')"
+                          [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'"
+                          [style.fontWeight]="'600'" [style.cursor]="'pointer'">Complete</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- Modal -->
+  @if (showModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'"
+         [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'"
+         [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+           [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'500px'" [style.overflow]="'hidden'">
+        <div [style.padding]="'20px 24px'" [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+          <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'">New Appointment</div>
+          <button (click)="showModal.set(false)" [style.background]="'none'" [style.border]="'none'" [style.color]="isDark ? '#64748b' : '#666'" [style.cursor]="'pointer'" [style.fontSize]="'20px'">&times;</button>
+        </div>
+        <form (ngSubmit)="addAppointment()" [style.padding]="'24px'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'16px'">
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Patient</label>
+            <select required [ngModel]="form().patientId" (ngModelChange)="form.set({...form(), patientId: $event})" name="patientId"
+                    [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                    [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'">
+              <option value="">-- Select Patient --</option>
+              @for (p of patients(); track p._id) { <option [value]="p._id">{{ p.firstName }} {{ p.lastName }}</option> }
+            </select>
+          </div>
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Time</label>
+            <input type="time" required [ngModel]="form().time" (ngModelChange)="form.set({...form(), time: $event})" name="time"
+                   [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                   [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+          </div>
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Notes</label>
+            <input type="text" [ngModel]="form().notes" (ngModelChange)="form.set({...form(), notes: $event})" name="notes"
+                   [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                   [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+          </div>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showModal.set(false)" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#3a3f5c'" [style.cursor]="'pointer'" [style.fontWeight]="'500'">Cancel</button>
+            <button type="submit" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'none'" [style.background]="isDark ? '#1D9E75' : '#0F6E56'" [style.color]="'#fff'" [style.cursor]="'pointer'" [style.fontWeight]="'600'">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Patient Registration Modal -->
+  @if (showPatientModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'"
+         [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'"
+         [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+           [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'700px'" [style.maxHeight]="'90vh'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.overflow]="'hidden'">
+        <div [style.padding]="'20px 24px'" [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+          <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'">Register New Patient</div>
+          <button (click)="showPatientModal.set(false)" [style.background]="'none'" [style.border]="'none'" [style.color]="isDark ? '#64748b' : '#666'" [style.cursor]="'pointer'" [style.fontSize]="'20px'">&times;</button>
+        </div>
+        <form (ngSubmit)="addPatient()" [style.padding]="'24px'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'" [style.overflowY]="'auto'">
+          
+          <div [style.display]="'grid'" [style.gridTemplateColumns]="'1fr 1fr'" [style.gap]="'16px'">
+            <!-- Demographics -->
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+              <div [style.fontSize]="'14px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#818cf8' : '#4f46e5'" [style.marginBottom]="'4px'">Demographics</div>
+              
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">First Name</label><input type="text" required class="interactive-input" [ngModel]="patientForm().firstName" (ngModelChange)="patientForm.set({...patientForm(), firstName: $event})" name="firstName" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Last Name</label><input type="text" required class="interactive-input" [ngModel]="patientForm().lastName" (ngModelChange)="patientForm.set({...patientForm(), lastName: $event})" name="lastName" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+              </div>
+
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Date of Birth</label><input type="date" required class="interactive-input" [ngModel]="patientForm().dateOfBirth" (ngModelChange)="patientForm.set({...patientForm(), dateOfBirth: $event})" name="dob" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Gender</label>
+                  <select required class="interactive-input" [ngModel]="patientForm().gender" (ngModelChange)="patientForm.set({...patientForm(), gender: $event})" name="gender" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'">
+                    <option>Male</option><option>Female</option><option>Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Phone</label><input type="text" class="interactive-input" [ngModel]="patientForm().phone" (ngModelChange)="patientForm.set({...patientForm(), phone: $event})" name="phone" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Email</label><input type="email" class="interactive-input" [ngModel]="patientForm().email" (ngModelChange)="patientForm.set({...patientForm(), email: $event})" name="email" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+              </div>
+
+              <div><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Address</label><input type="text" class="interactive-input" [ngModel]="patientForm().address" (ngModelChange)="patientForm.set({...patientForm(), address: $event})" name="address" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+            </div>
+
+            <!-- Clinical Details -->
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+              <div [style.fontSize]="'14px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#34d399' : '#059669'" [style.marginBottom]="'4px'">Clinical Details</div>
+              
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Blood Group</label>
+                  <select required class="interactive-input" [ngModel]="patientForm().bloodGroup" (ngModelChange)="patientForm.set({...patientForm(), bloodGroup: $event})" name="blood" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'">
+                    <option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option>
+                  </select>
+                </div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Insurance</label><input type="text" class="interactive-input" [ngModel]="patientForm().insurance" (ngModelChange)="patientForm.set({...patientForm(), insurance: $event})" name="insurance" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+              </div>
+
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Cancer Type</label><input type="text" required class="interactive-input" [ngModel]="patientForm().cancerType" (ngModelChange)="patientForm.set({...patientForm(), cancerType: $event})" name="cancerType" placeholder="e.g. Breast Cancer" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Cancer Stage</label>
+                  <select required class="interactive-input" [ngModel]="patientForm().cancerStage" (ngModelChange)="patientForm.set({...patientForm(), cancerStage: $event})" name="cancerStage" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'">
+                    <option>Stage I</option><option>Stage II</option><option>Stage III</option><option>Stage IV</option><option>Unknown</option>
+                  </select>
+                </div>
+              </div>
+
+              <div [style.display]="'flex'" [style.gap]="'12px'">
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Diagnosis Date</label><input type="date" class="interactive-input" [ngModel]="patientForm().diagnosisDate" (ngModelChange)="patientForm.set({...patientForm(), diagnosisDate: $event})" name="diagnosis" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+                <div [style.flex]="'1'"><label [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#555'">Primary Oncologist</label><input type="text" class="interactive-input" [ngModel]="patientForm().primaryOncologist" (ngModelChange)="patientForm.set({...patientForm(), primaryOncologist: $event})" name="oncologist" [style.width]="'100%'" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'"/></div>
+              </div>
+            </div>
+          </div>
+
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'" [style.paddingTop]="'20px'" [style.borderTop]="'1px solid ' + (isDark ? '#2d3148' : '#eee')">
+            <button type="button" (click)="showPatientModal.set(false)" class="interactive-btn" [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="'transparent'" [style.color]="isDark ? '#e2e8f0' : '#3a3f5c'" [style.cursor]="'pointer'" [style.fontWeight]="'500'">Cancel</button>
+            <button type="submit" class="interactive-btn" [style.padding]="'10px 24px'" [style.borderRadius]="'8px'" [style.border]="'none'" [style.background]="isDark ? '#3b82f6' : '#2563eb'" [style.color]="'#fff'" [style.cursor]="'pointer'" [style.fontWeight]="'600'"><i class="ti ti-check" [style.marginRight]="'6px'"></i> Save Patient</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

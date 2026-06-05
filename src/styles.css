@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================================
+   VistaOnco HMS — Global Styles
+   =================================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3a3f5c; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #4f5680; }
+
+/* Remove outline for mouse users, keep for keyboard */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+
+/* Remove default input styles */
+input, select, textarea, button {
+  font-family: inherit;
+}
+
+/* Remove number input spinners */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* Date input dark mode fix */
+input[type=date]::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+}
+
+/* Animations */
+@keyframes spin { 100% { transform: rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.spin { animation: spin 1s linear infinite; }
+.fade-in { animation: fadeIn 0.25s ease forwards; }
+
+/* Premium Interactive Utilities */
+.interactive-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.interactive-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(1, 64, 143, 0.4) !important;
+  filter: brightness(1.1);
+}
+.interactive-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(1, 64, 143, 0.3) !important;
+}
+
+.interactive-input {
+  transition: all 0.3s ease;
+}
+.interactive-input:focus-within {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15) !important;
+  border-color: rgba(99, 102, 241, 0.5) !important;
+}
+
+.interactive-card {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.interactive-card:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+.dark .interactive-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(99, 102, 241, 0.1) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+.interactive-link {
+  transition: all 0.2s ease;
+}
+.interactive-link:hover {
+  transform: translateX(4px);
+  background: rgba(99, 102, 241, 0.1) !important;
+  color: #818cf8 !important;
+}
+
+/* Premium Keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+@keyframes float-reverse {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(20px) scale(0.95); }
+}
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(99,102,241,0.5)); }
+  50% { filter: drop-shadow(0 0 20px rgba(99,102,241,0.8)); }
+}
+
+.animate-float { animation: float 8s ease-in-out infinite; }
+.animate-float-reverse { animation: float-reverse 10s ease-in-out infinite; }
+.animate-glow { animation: glow 3s ease-in-out infinite; }
+
+/* Premium Login Transition */
+.login-success-card {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  pointer-events: none;
+}
+.login-success-fade {
+  opacity: 0 !important;
+  transform: translateY(10px) !important;
+  pointer-events: none;
+}
+.login-logo-centered {
+  transform: scale(1.5) translateY(40px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Premium Cinematic View Transition */
+html.premium-transition::view-transition-old(root) {
+  animation: premium-hide 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 2;
+}
+html.premium-transition::view-transition-new(root) {
+  animation: premium-reveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 1;
+}
+
+@keyframes premium-hide {
+  0% { opacity: 1; transform: scale(1); filter: blur(0px); }
+  100% { opacity: 0; transform: scale(1.15); filter: blur(8px); }
+}
+@keyframes premium-reveal {
+  0% { opacity: 0; transform: scale(0.96) translateY(20px); filter: blur(4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+/* ===================================================
+   Magic UI Interactive Grid Pattern
+   =================================================== */
+.magic-grid-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 0; /* Behind the login card */
+  pointer-events: auto; /* Always interactive */
+  opacity: 0.8; /* Visible by default */
+  transition: opacity 1.5s ease-in-out;
+  /* Add a gradient mask so the edges fade out beautifully */
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 10%, rgba(0,0,0,0) 80%);
+}
+
+.magic-grid-container.active {
+  opacity: 1; /* Brighten up slightly during success transition */
+}
+
+.magic-grid-cell {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.02); /* Very faint grid lines */
+  background: transparent;
+  /* When the mouse leaves, it takes 1s to fade back to transparent */
+  transition: background 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magic-grid-cell:hover {
+  /* When the mouse enters, it instantly lights up */
+  background: rgba(99, 102, 241, 0.4);
+  transition-duration: 0s;
+}

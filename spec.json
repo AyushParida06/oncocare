@@ -1,0 +1,495 @@
+{
+  "url": "https://fastidious-retriever-654.eu-west-1.convex.cloud",
+  "functions": [
+    {
+      "args": {
+        "type": "object",
+        "value": {}
+      },
+      "functionType": "Query",
+      "identifier": "auth.js:isAuthenticated",
+      "returns": null,
+      "visibility": {
+        "kind": "public"
+      }
+    },
+    {
+      "args": {
+        "type": "object",
+        "value": {
+          "calledBy": {
+            "fieldType": {
+              "type": "string"
+            },
+            "optional": true
+          },
+          "params": {
+            "fieldType": {
+              "type": "any"
+            },
+            "optional": true
+          },
+          "provider": {
+            "fieldType": {
+              "type": "string"
+            },
+            "optional": true
+          },
+          "refreshToken": {
+            "fieldType": {
+              "type": "string"
+            },
+            "optional": true
+          },
+          "verifier": {
+            "fieldType": {
+              "type": "string"
+            },
+            "optional": true
+          }
+        }
+      },
+      "functionType": "Action",
+      "identifier": "auth.js:signIn",
+      "returns": null,
+      "visibility": {
+        "kind": "public"
+      }
+    },
+    {
+      "args": {
+        "type": "object",
+        "value": {}
+      },
+      "functionType": "Action",
+      "identifier": "auth.js:signOut",
+      "returns": null,
+      "visibility": {
+        "kind": "public"
+      }
+    },
+    {
+      "args": {
+        "type": "object",
+        "value": {
+          "args": {
+            "fieldType": {
+              "type": "union",
+              "value": [
+                {
+                  "type": "object",
+                  "value": {
+                    "generateTokens": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": false
+                    },
+                    "sessionId": {
+                      "fieldType": {
+                        "tableName": "authSessions",
+                        "type": "id"
+                      },
+                      "optional": true
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "signIn"
+                      },
+                      "optional": false
+                    },
+                    "userId": {
+                      "fieldType": {
+                        "tableName": "users",
+                        "type": "id"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "signOut"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "refreshToken": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "refreshSession"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "allowExtraProviders": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": false
+                    },
+                    "generateTokens": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": false
+                    },
+                    "params": {
+                      "fieldType": {
+                        "type": "any"
+                      },
+                      "optional": false
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "verifyCodeAndSignIn"
+                      },
+                      "optional": false
+                    },
+                    "verifier": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "verifier"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "signature": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "verifierSignature"
+                      },
+                      "optional": false
+                    },
+                    "verifier": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "profile": {
+                      "fieldType": {
+                        "type": "any"
+                      },
+                      "optional": false
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "providerAccountId": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "signature": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "userOAuth"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "accountId": {
+                      "fieldType": {
+                        "tableName": "authAccounts",
+                        "type": "id"
+                      },
+                      "optional": true
+                    },
+                    "allowExtraProviders": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": false
+                    },
+                    "code": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "email": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "expirationTime": {
+                      "fieldType": {
+                        "type": "number"
+                      },
+                      "optional": false
+                    },
+                    "phone": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "createVerificationCode"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "account": {
+                      "fieldType": {
+                        "type": "object",
+                        "value": {
+                          "id": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": false
+                          },
+                          "secret": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": true
+                          }
+                        }
+                      },
+                      "optional": false
+                    },
+                    "profile": {
+                      "fieldType": {
+                        "type": "any"
+                      },
+                      "optional": false
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "shouldLinkViaEmail": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": true
+                    },
+                    "shouldLinkViaPhone": {
+                      "fieldType": {
+                        "type": "boolean"
+                      },
+                      "optional": true
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "createAccountFromCredentials"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "account": {
+                      "fieldType": {
+                        "type": "object",
+                        "value": {
+                          "id": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": false
+                          },
+                          "secret": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": true
+                          }
+                        }
+                      },
+                      "optional": false
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "retrieveAccountWithCredentials"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "account": {
+                      "fieldType": {
+                        "type": "object",
+                        "value": {
+                          "id": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": false
+                          },
+                          "secret": {
+                            "fieldType": {
+                              "type": "string"
+                            },
+                            "optional": false
+                          }
+                        }
+                      },
+                      "optional": false
+                    },
+                    "provider": {
+                      "fieldType": {
+                        "type": "string"
+                      },
+                      "optional": false
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "modifyAccount"
+                      },
+                      "optional": false
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "value": {
+                    "except": {
+                      "fieldType": {
+                        "type": "array",
+                        "value": {
+                          "tableName": "authSessions",
+                          "type": "id"
+                        }
+                      },
+                      "optional": true
+                    },
+                    "type": {
+                      "fieldType": {
+                        "type": "literal",
+                        "value": "invalidateSessions"
+                      },
+                      "optional": false
+                    },
+                    "userId": {
+                      "fieldType": {
+                        "tableName": "users",
+                        "type": "id"
+                      },
+                      "optional": false
+                    }
+                  }
+                }
+              ]
+            },
+            "optional": false
+          }
+        }
+      },
+      "functionType": "Mutation",
+      "identifier": "auth.js:store",
+      "returns": null,
+      "visibility": {
+        "kind": "internal"
+      }
+    },
+    {
+      "functionType": "HttpAction",
+      "method": "GET",
+      "path": "/.well-known/jwks.json"
+    },
+    {
+      "functionType": "HttpAction",
+      "method": "GET",
+      "path": "/.well-known/openid-configuration"
+    }
+  ]
+}

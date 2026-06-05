@@ -21,12 +21,9 @@ export const addMeeting = mutation({
 });
 
 export const getCases = query({
-  args: { meetingId: v.id("tumourBoardMeetings") },
-  handler: async (ctx, args) => {
-    return await ctx.db
-      .query("tumourBoardCases")
-      .filter((q) => q.eq(q.field("meetingId"), args.meetingId))
-      .collect();
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("tumourBoardCases").collect();
   },
 });
 

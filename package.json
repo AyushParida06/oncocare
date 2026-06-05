@@ -3,41 +3,41 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@auth/core": "^0.37.0",
+    "@angular/animations": "^21.0.0",
+    "@angular/cdk": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "^21.0.0",
     "@convex-dev/auth": "^0.0.93",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "concurrently": "^8.2.0",
     "convex": "^1.40.0",
+    "convex-angular": "^0.4.0",
     "jspdf": "^4.2.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.77.0",
-    "react-router-dom": "^6.22.0",
-    "react-scripts": "5.0.1"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "convex:dev": "convex dev",
-    "dev": "concurrently \"npx convex dev\" \"react-scripts start\""
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "lucide-angular": "^1.0.0",
+    "rxjs": "^7.8.1",
+    "tailwind-merge": "^3.6.0",
+    "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "@angular-devkit/build-angular": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@spartan-ng/cli": "^0.0.1-alpha.705",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "start": "ng serve --port 3000",
+    "build": "ng build",
+    "convex:dev": "convex dev",
+    "dev": "concurrently \"npx convex dev\" \"ng serve --port 3000 --open\""
   }
 }

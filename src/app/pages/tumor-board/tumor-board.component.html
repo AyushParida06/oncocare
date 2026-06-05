@@ -1,0 +1,146 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(83,74,183,.15) 0%,rgba(83,74,183,.05) 100%)' : 'linear-gradient(135deg,#eeedfe 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(83,74,183,.4)' : '#d8d5fa')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#6d64d8' : '#534AB7'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-users" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_tumor_board') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_tumor_board') }}</div>
+    </div>
+    <button (click)="showMeetingModal.set(true)"
+            [style.background]="isDark ? '#6d64d8' : '#534AB7'" [style.color]="'#fff'"
+            [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+            [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'">
+      <i class="ti ti-plus"></i> {{ t('tb_new_meeting') }}
+    </button>
+  </div>
+
+  <div [style.display]="'flex'" [style.gap]="'20px'">
+    <!-- Meetings List -->
+    <div [style.width]="'300px'" [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'16px'" [style.padding]="'20px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'16px'">{{ t('tb_meetings') }}</div>
+      <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'10px'">
+        @for (m of meetings(); track m._id) {
+          <div (click)="selectedMeeting.set(m)"
+               [style.padding]="'12px 16px'" [style.borderRadius]="'10px'" [style.cursor]="'pointer'"
+               [style.border]="'1px solid ' + (selectedMeeting()?._id === m._id ? (isDark ? '#6d64d8' : '#534AB7') : (isDark ? '#2d3148' : '#eee'))"
+               [style.background]="selectedMeeting()?._id === m._id ? (isDark ? 'rgba(83,74,183,.1)' : '#eeedfe') : (isDark ? '#16182a' : '#f9fafb')">
+            <div [style.fontWeight]="'600'" [style.fontSize]="'14px'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ m.date }}</div>
+            <div [style.fontSize]="'12px'" [style.color]="isDark ? '#94a3b8' : '#64748b'">{{ m.location }}</div>
+          </div>
+        }
+        @if (meetings().length === 0) {
+          <div [style.color]="isDark ? '#64748b' : '#888'" [style.fontSize]="'13px'">No meetings found.</div>
+        }
+      </div>
+    </div>
+
+    <!-- Meeting Details -->
+    <div [style.flex]="'1'" [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      @if (selectedMeeting()) {
+        <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.alignItems]="'center'" [style.marginBottom]="'20px'">
+          <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('tb_cases') }} - {{ selectedMeeting()?.date }}</div>
+          <button (click)="showCaseModal.set(true)"
+                  [style.background]="'transparent'" [style.color]="isDark ? '#6d64d8' : '#534AB7'"
+                  [style.border]="'1px solid ' + (isDark ? '#6d64d8' : '#534AB7')"
+                  [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'"
+                  [style.fontWeight]="'600'" [style.cursor]="'pointer'">+ {{ t('tb_add_case') }}</button>
+        </div>
+        
+        <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          @for (c of meetingCases; track c._id) {
+            <div [style.background]="isDark ? '#16182a' : '#f8fafc'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'10px'" [style.padding]="'16px'">
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.marginBottom]="'8px'">
+                <div [style.fontWeight]="'600'" [style.fontSize]="'15px'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ getPatientName(c.patientId) }}</div>
+                <div [style.fontSize]="'11px'" [style.background]="c.status === 'decided' ? (isDark ? 'rgba(16,185,129,.1)' : '#ecfdf5') : (isDark ? 'rgba(245,158,11,.1)' : '#fffbeb')" 
+                     [style.color]="c.status === 'decided' ? (isDark ? '#34d399' : '#059669') : (isDark ? '#fbbf24' : '#d97706')" 
+                     [style.padding]="'2px 8px'" [style.borderRadius]="'4px'" [style.textTransform]="'capitalize'">{{ c.status }}</div>
+              </div>
+              <div [style.fontSize]="'13px'" [style.color]="isDark ? '#cbd5e1' : '#333'" [style.marginBottom]="'12px'">{{ c.summary }}</div>
+              
+              @if (c.decision) {
+                <div [style.background]="isDark ? '#1e2030' : '#fff'" [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px dashed ' + (isDark ? '#2d3148' : '#ccc')">
+                  <div [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#94a3b8' : '#555'" [style.marginBottom]="'4px'">{{ t('tb_decision') }}:</div>
+                  <div [style.fontSize]="'13px'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ c.decision }}</div>
+                </div>
+              } @else {
+                <button (click)="openDecision(c)"
+                        [style.background]="isDark ? '#2d3148' : '#e2e8f0'" [style.color]="isDark ? '#e2e8f0' : '#333'"
+                        [style.border]="'none'" [style.padding]="'6px 12px'" [style.borderRadius]="'6px'"
+                        [style.fontSize]="'12px'" [style.fontWeight]="'500'" [style.cursor]="'pointer'">{{ t('tb_record_decision') }}</button>
+              }
+            </div>
+          }
+          @if (meetingCases.length === 0) {
+            <div [style.padding]="'20px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">No cases for this meeting.</div>
+          }
+        </div>
+      } @else {
+        <div [style.padding]="'40px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">
+          Select a meeting to view cases.
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Meeting Modal -->
+  @if (showMeetingModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'" [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'400px'" [style.padding]="'24px'">
+        <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'" [style.marginBottom]="'16px'">{{ t('tb_new_meeting') }}</div>
+        <form (ngSubmit)="createMeeting()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          <input type="date" required [ngModel]="meetingForm().date" (ngModelChange)="meetingForm.set({...meetingForm(), date: $event})" name="date" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"/>
+          <input type="text" placeholder="Location" required [ngModel]="meetingForm().location" (ngModelChange)="meetingForm.set({...meetingForm(), location: $event})" name="location" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"/>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showMeetingModal.set(false)" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#555'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#6d64d8' : '#534AB7'" [style.color]="'#fff'" [style.border]="'none'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Case Modal -->
+  @if (showCaseModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'" [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'450px'" [style.padding]="'24px'">
+        <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'" [style.marginBottom]="'16px'">{{ t('tb_add_case') }}</div>
+        <form (ngSubmit)="addCase()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          <select required [ngModel]="caseForm().patientId" (ngModelChange)="caseForm.set({...caseForm(), patientId: $event})" name="patientId" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">
+            <option value="">Select Patient</option>
+            @for (p of patients(); track p._id) { <option [value]="p._id">{{ p.firstName }} {{ p.lastName }}</option> }
+          </select>
+          <textarea placeholder="Clinical Summary" required [ngModel]="caseForm().summary" (ngModelChange)="caseForm.set({...caseForm(), summary: $event})" name="summary" rows="4" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"></textarea>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showCaseModal.set(false)" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#555'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#6d64d8' : '#534AB7'" [style.color]="'#fff'" [style.border]="'none'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Decision Modal -->
+  @if (showDecisionModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'" [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'450px'" [style.padding]="'24px'">
+        <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'" [style.marginBottom]="'16px'">{{ t('tb_record_decision') }}</div>
+        <div [style.marginBottom]="'16px'" [style.fontSize]="'13px'" [style.color]="isDark ? '#cbd5e1' : '#333'">For: {{ getPatientName(editingCase()?.patientId) }}</div>
+        <form (ngSubmit)="saveDecision()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          <textarea placeholder="Board Decision..." required [ngModel]="decisionText()" (ngModelChange)="decisionText.set($event)" name="decision" rows="4" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"></textarea>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showDecisionModal.set(false)" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#555'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#6d64d8' : '#534AB7'" [style.color]="'#fff'" [style.border]="'none'">{{ t('tb_save_decision') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

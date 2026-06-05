@@ -1,0 +1,152 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <!-- Header -->
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(59,109,17,.15) 0%,rgba(59,109,17,.05) 100%)' : 'linear-gradient(135deg,#eaf3de 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(59,109,17,.4)' : '#d5e7c0')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#4c8c16' : '#3B6D11'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-bed" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_inpatient') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_inpatient') }}</div>
+    </div>
+    <button (click)="showModal.set(true)"
+            [style.background]="isDark ? '#4c8c16' : '#3B6D11'" [style.color]="'#fff'"
+            [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+            [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'"
+            [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'8px'">
+      <i class="ti ti-plus"></i> {{ t('inpatient_admit') }}
+    </button>
+  </div>
+
+  <!-- Active Admissions Grid -->
+  <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px'">
+    <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">
+      {{ t('inpatient_active') }} ({{ active.length }})
+    </div>
+
+    @if (active.length === 0) {
+      <div [style.padding]="'40px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'" [style.fontSize]="'14px'">
+        {{ t('inpatient_no_records') }}
+      </div>
+    } @else {
+      <table [style.width]="'100%'" [style.borderCollapse]="'collapse'" [style.fontSize]="'14px'">
+        <thead>
+          <tr [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.color]="isDark ? '#64748b' : '#666'" [style.textAlign]="'left'">
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Patient</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('inpatient_room') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('inpatient_bed') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('inpatient_date') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (adm of active; track adm._id) {
+            <tr [style.borderBottom]="'1px solid ' + (isDark ? '#16182a' : '#e2e8f0')" [style.color]="isDark ? '#ddd' : '#2d3148'">
+              <td [style.padding]="'16px'">
+                <div [style.fontWeight]="'500'">{{ getPatientName(adm.patientId) }}</div>
+                <div [style.fontSize]="'12px'" [style.color]="isDark ? '#888' : '#888'">{{ getPatientMRN(adm.patientId) }}</div>
+              </td>
+              <td [style.padding]="'16px'">{{ adm.room }}</td>
+              <td [style.padding]="'16px'">{{ adm.bed }}</td>
+              <td [style.padding]="'16px'">{{ adm.admissionDate }}</td>
+              <td [style.padding]="'16px'">
+                <button (click)="discharge(adm._id)"
+                        [style.background]="isDark ? 'rgba(59,109,17,.1)' : '#eaf3de'"
+                        [style.color]="isDark ? '#84cc28' : '#3B6D11'"
+                        [style.border]="'1px solid ' + (isDark ? 'rgba(59,109,17,.3)' : '#d5e7c0')"
+                        [style.padding]="'6px 12px'" [style.borderRadius]="'6px'" [style.fontSize]="'12px'"
+                        [style.fontWeight]="'600'" [style.cursor]="'pointer'">{{ t('inpatient_discharge') }}</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  <!-- History -->
+  @if (history.length > 0) {
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">
+        {{ t('inpatient_history') }}
+      </div>
+      <table [style.width]="'100%'" [style.borderCollapse]="'collapse'" [style.fontSize]="'14px'">
+        <thead>
+          <tr [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.color]="isDark ? '#64748b' : '#666'" [style.textAlign]="'left'">
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">Patient</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('inpatient_date') }}</th>
+            <th [style.padding]="'12px 16px'" [style.fontWeight]="'500'">{{ t('inpatient_discharge_date') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (adm of history; track adm._id) {
+            <tr [style.borderBottom]="'1px solid ' + (isDark ? '#16182a' : '#e2e8f0')" [style.color]="isDark ? '#888' : '#777'">
+              <td [style.padding]="'16px'">{{ getPatientName(adm.patientId) }}</td>
+              <td [style.padding]="'16px'">{{ adm.admissionDate }}</td>
+              <td [style.padding]="'16px'">{{ adm.dischargeDate }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Admit Modal -->
+  @if (showModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'"
+         [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'"
+         [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+           [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'500px'" [style.overflow]="'hidden'">
+        <div [style.padding]="'20px 24px'" [style.borderBottom]="'1px solid ' + (isDark ? '#2d3148' : '#eee')"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+          <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'">{{ t('inpatient_admit') }}</div>
+          <button (click)="showModal.set(false)" [style.background]="'none'" [style.border]="'none'" [style.color]="isDark ? '#64748b' : '#666'" [style.cursor]="'pointer'" [style.fontSize]="'20px'">&times;</button>
+        </div>
+        <form (ngSubmit)="admit()" [style.padding]="'24px'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'16px'">
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">{{ t('inpatient_select_patient') }}</label>
+            <select required [ngModel]="form().patientId" (ngModelChange)="form.set({...form(), patientId: $event})" name="patientId"
+                    [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                    [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'">
+              <option value="">-- {{ t('inpatient_select_patient') }} --</option>
+              @for (p of patients(); track p._id) { <option [value]="p._id">{{ p.firstName }} {{ p.lastName }} ({{ p.mrn }})</option> }
+            </select>
+          </div>
+          <div [style.display]="'flex'" [style.gap]="'16px'">
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'" [style.flex]="'1'">
+              <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">{{ t('inpatient_room') }}</label>
+              <input type="text" required [ngModel]="form().room" (ngModelChange)="form.set({...form(), room: $event})" name="room"
+                     [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                     [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+            </div>
+            <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'" [style.flex]="'1'">
+              <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">{{ t('inpatient_bed') }}</label>
+              <input type="text" required [ngModel]="form().bed" (ngModelChange)="form.set({...form(), bed: $event})" name="bed"
+                     [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                     [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+            </div>
+          </div>
+          <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'6px'">
+            <label [style.fontSize]="'13px'" [style.fontWeight]="'500'" [style.color]="isDark ? '#64748b' : '#3a3f5c'">Diagnosis / Reason</label>
+            <input type="text" required [ngModel]="form().diagnosis" (ngModelChange)="form.set({...form(), diagnosis: $event})" name="diagnosis"
+                   [style.padding]="'12px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"
+                   [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.outline]="'none'"/>
+          </div>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showModal.set(false)" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#3a3f5c'" [style.cursor]="'pointer'" [style.fontWeight]="'500'">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'10px 16px'" [style.borderRadius]="'8px'" [style.border]="'none'" [style.background]="isDark ? '#4c8c16' : '#3B6D11'" [style.color]="'#fff'" [style.cursor]="'pointer'" [style.fontWeight]="'600'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

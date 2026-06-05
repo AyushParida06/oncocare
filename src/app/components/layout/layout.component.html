@@ -1,0 +1,190 @@
+<div [style.display]="'flex'" [style.height]="'100vh'"
+     [style.background]="isDark() ? '#12141f' : '#f4f6f8'"
+     [style.fontFamily]="'-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif'"
+     [style.transition]="'background 0.3s'">
+
+  <!-- Sidebar -->
+  <aside [style.width]="'220px'" [style.minWidth]="'220px'"
+         [style.background]="isDark() ? '#1e2030' : '#fff'"
+         [style.borderRight]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+         [style.display]="'flex'" [style.flexDirection]="'column'"
+         [style.overflowY]="'auto'" [style.transition]="'background 0.3s'">
+
+    <!-- Logo -->
+    <div [style.padding]="'18px 16px 12px'"
+         [style.borderBottom]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')">
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'">
+        <img src="/vistaonco-logo.png" alt="VistaOnco"
+             [style.width]="'34px'" [style.height]="'34px'" [style.objectFit]="'contain'"/>
+        <div>
+          <div [style.fontSize]="'19px'" [style.fontWeight]="'700'" [style.lineHeight]="'1'"
+               [style.padding]="isDark() ? '3px 8px' : '0'"
+               [style.borderRadius]="'6px'"
+               [style.background]="isDark() ? 'linear-gradient(90deg,rgba(176,35,35,.18) 0%,rgba(1,64,143,.18) 100%)' : 'transparent'">
+            <span [style.color]="'#B02323'">Vista</span><span [style.color]="'#01408F'">Onco</span>
+          </div>
+          <div [style.fontSize]="'11px'" [style.color]="isDark() ? '#94a3b8' : '#888'" [style.marginTop]="'2px'">
+            Hospital Management System
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <input [style.margin]="'10px 10px 6px'" [style.padding]="'7px 10px'"
+           [style.borderRadius]="'8px'" [style.border]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+           [style.background]="isDark() ? '#16182a' : '#f9fafb'"
+           [style.fontSize]="'13px'" [style.width]="'calc(100% - 20px)'"
+           [style.outline]="'none'" [style.color]="isDark() ? '#e2e8f0' : '#111'"
+           placeholder="Search menus…"
+           [value]="search()"
+           (input)="search.set($any($event.target).value)" />
+
+    <!-- Nav -->
+    <nav [style.flex]="'1'" [style.padding]="'4px 0'">
+      @for (group of navGroups(); track group.label) {
+        <div>
+          <div [style.padding]="'10px 16px 4px'" [style.fontSize]="'10px'"
+               [style.color]="isDark() ? '#475569' : '#9ca3af'"
+               [style.letterSpacing]="'.08em'" [style.textTransform]="'uppercase'"
+               [style.fontWeight]="'600'">{{ group.label }}</div>
+          @for (item of group.items; track item.path) {
+            <a [routerLink]="item.path" routerLinkActive="nav-active" class="interactive-link"
+               [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'"
+               [style.padding]="'8px 12px'" [style.margin]="'1px 6px'"
+               [style.borderRadius]="'8px'" [style.fontSize]="'13px'"
+               [style.color]="isDark() ? '#e2e8f0' : '#555'"
+               [style.cursor]="'pointer'" [style.textDecoration]="'none'">
+              <i [class]="'ti ' + item.icon" [style.fontSize]="'16px'"></i>
+              {{ item.label }}
+            </a>
+          }
+        </div>
+      }
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div [style.flex]="'1'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.overflow]="'hidden'">
+
+    <!-- Topbar -->
+    <header [style.background]="isDark() ? '#1e2030' : '#fff'"
+            [style.borderBottom]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+            [style.padding]="'0 20px'" [style.height]="'52px'" [style.minHeight]="'52px'"
+            [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+
+      <!-- Breadcrumb -->
+      <div [style.fontSize]="'13px'" [style.color]="isDark() ? '#94a3b8' : '#555'"
+           [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'6px'">
+        <i class="ti ti-home" [style.fontSize]="'14px'"></i>
+        <i class="ti ti-chevron-right" [style.fontSize]="'14px'" [style.color]="'#999'"></i>
+        <span [style.color]="isDark() ? '#e2e8f0' : '#111'" [style.fontWeight]="'500'">{{ pageTitle() }}</span>
+      </div>
+
+      <!-- Right icons -->
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'">
+        @for (icon of ['ti-notes','ti-bell','ti-apps','ti-settings']; track icon) {
+          <div [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+               [style.border]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+               [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'"
+               [style.cursor]="'pointer'" [style.color]="'#666'">
+            <i [class]="'ti ' + icon" [style.fontSize]="'16px'"></i>
+          </div>
+        }
+
+        <!-- Theme toggle -->
+        <div (click)="toggleTheme()"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.border]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'"
+             [style.cursor]="'pointer'" [style.color]="isDark() ? '#fbbf24' : '#64748b'">
+          <i [class]="'ti ' + (isDark() ? 'ti-sun' : 'ti-moon')" [style.fontSize]="'16px'"></i>
+        </div>
+
+        <!-- User menu -->
+        <div [style.position]="'relative'">
+          <div (click)="showUserMenu.set(!showUserMenu())"
+               [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'8px'"
+               [style.padding]="'4px 10px 4px 6px'"
+               [style.border]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+               [style.borderRadius]="'20px'" [style.cursor]="'pointer'"
+               [style.background]="isDark() ? '#2d3148' : 'transparent'">
+            <div [style.width]="'26px'" [style.height]="'26px'" [style.borderRadius]="'50%'"
+                 [style.background]="isDark() ? 'rgba(99,102,241,0.18)' : '#E1F5EE'"
+                 [style.color]="isDark() ? '#818cf8' : '#0F6E56'"
+                 [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'"
+                 [style.fontSize]="'10px'" [style.fontWeight]="'600'">DR</div>
+            <div>
+              <div [style.fontWeight]="'500'" [style.color]="isDark() ? '#e2e8f0' : '#111'" [style.fontSize]="'12px'">Dr. Ramesh K</div>
+              <div [style.fontSize]="'10px'" [style.color]="isDark() ? '#94a3b8' : '#555'">Oncologist</div>
+            </div>
+            <i class="ti ti-chevron-down" [style.fontSize]="'14px'" [style.color]="isDark() ? '#94a3b8' : '#555'"></i>
+          </div>
+
+          @if (showUserMenu()) {
+            <div [style.position]="'absolute'" [style.top]="'110%'" [style.right]="'0'"
+                 [style.width]="'200px'" [style.background]="isDark() ? '#1e2030' : '#fff'"
+                 [style.border]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+                 [style.borderRadius]="'12px'"
+                 [style.boxShadow]="isDark() ? '0 8px 32px rgba(0,0,0,.7)' : '0 4px 20px rgba(0,0,0,.08)'"
+                 [style.padding]="'8px 0'" [style.zIndex]="'50'">
+
+              <!-- Language -->
+              <div (click)="showLangMenu.set(!showLangMenu())"
+                   [style.padding]="'10px 16px'" [style.display]="'flex'" [style.alignItems]="'center'"
+                   [style.justifyContent]="'space-between'" [style.cursor]="'pointer'"
+                   [style.fontSize]="'13px'" [style.color]="isDark() ? '#e2e8f0' : '#111'">
+                <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'">
+                  <i class="ti ti-world" [style.fontSize]="'16px'"></i>
+                  {{ langService.lang() === 'hi' ? 'Hindi' : langService.lang() === 'ta' ? 'Tamil' : 'English' }}
+                </div>
+                <i [class]="'ti ti-chevron-' + (showLangMenu() ? 'up' : 'down')" [style.fontSize]="'14px'"></i>
+              </div>
+
+              @if (showLangMenu()) {
+                <div [style.background]="isDark() ? '#16182a' : '#f4f6f8'"
+                     [style.padding]="'4px 0'"
+                     [style.borderTop]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')"
+                     [style.borderBottom]="'0.5px solid ' + (isDark() ? '#2d3148' : '#e5e7eb')">
+                  @for (opt of [{code:'en',label:'English'},{code:'hi',label:'Hindi'},{code:'ta',label:'Tamil'}]; track opt.code) {
+                    <div (click)="setLang($any(opt.code))"
+                         [style.padding]="'8px 16px 8px 42px'" [style.cursor]="'pointer'"
+                         [style.fontSize]="'12px'"
+                         [style.color]="langService.lang() === opt.code ? (isDark() ? '#4ade80' : '#0F6E56') : (isDark() ? '#94a3b8' : '#555')"
+                         [style.fontWeight]="langService.lang() === opt.code ? '600' : '400'">
+                      {{ opt.label }}
+                    </div>
+                  }
+                </div>
+              }
+
+              <div [style.height]="'1px'" [style.background]="isDark() ? '#2d3148' : '#e5e7eb'" [style.margin]="'4px 0'"></div>
+              <div (click)="signOut()"
+                   [style.padding]="'10px 16px'" [style.display]="'flex'" [style.alignItems]="'center'"
+                   [style.gap]="'10px'" [style.cursor]="'pointer'" [style.fontSize]="'13px'"
+                   [style.color]="'#ef4444'">
+                <i class="ti ti-logout" [style.fontSize]="'16px'"></i>
+                Sign Out
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <div [style.flex]="'1'" [style.overflowY]="'auto'" [style.padding]="'20px'"
+         [style.background]="isDark() ? '#12141f' : '#f4f6f8'"
+         [style.transition]="'background 0.3s'">
+      <router-outlet />
+    </div>
+  </div>
+</div>
+
+<style>
+  a.nav-active {
+    background: rgba(99,102,241,0.18) !important;
+    color: #818cf8 !important;
+    font-weight: 600;
+  }
+</style>

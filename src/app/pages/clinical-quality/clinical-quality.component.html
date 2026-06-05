@@ -1,0 +1,100 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(24,95,165,.15) 0%,rgba(24,95,165,.05) 100%)' : 'linear-gradient(135deg,#e6f1fb 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(24,95,165,.4)' : '#cde3f7')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#267bd0' : '#185FA5'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-chart-bar" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_quality') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_quality') }}</div>
+    </div>
+    <button (click)="showModal.set(true)"
+            [style.background]="isDark ? '#267bd0' : '#185FA5'" [style.color]="'#fff'"
+            [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+            [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'">
+      <i class="ti ti-alert-triangle"></i> {{ t('qual_report_incident') }}
+    </button>
+  </div>
+
+  <div [style.display]="'grid'" [style.gridTemplateColumns]="'repeat(2, 1fr)'" [style.gap]="'20px'">
+    <!-- Active Incidents -->
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">{{ t('qual_active_incidents') }}</div>
+      
+      @if (active.length === 0) {
+        <div [style.padding]="'20px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">No active incidents.</div>
+      } @else {
+        <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          @for (inc of active; track inc._id) {
+            <div [style.background]="isDark ? '#16182a' : '#f8fafc'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'10px'" [style.padding]="'16px'">
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.marginBottom]="'8px'">
+                <div [style.fontWeight]="'600'" [style.fontSize]="'14px'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ inc.department }}</div>
+                <div [style.display]="'flex'" [style.gap]="'8px'">
+                  <div [style.fontSize]="'11px'" [style.color]="sevColor(inc.severity)" [style.border]="'1px solid ' + sevColor(inc.severity)" [style.padding]="'2px 6px'" [style.borderRadius]="'4px'" [style.textTransform]="'capitalize'">{{ inc.severity }}</div>
+                  <div [style.fontSize]="'11px'" [style.background]="isDark ? 'rgba(59,130,246,.1)' : '#eff6ff'" [style.color]="isDark ? '#60a5fa' : '#2563eb'" [style.padding]="'2px 6px'" [style.borderRadius]="'4px'" [style.textTransform]="'capitalize'">{{ inc.status }}</div>
+                </div>
+              </div>
+              <div [style.fontSize]="'13px'" [style.color]="isDark ? '#cbd5e1' : '#333'" [style.marginBottom]="'12px'">{{ inc.description }}</div>
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.alignItems]="'center'">
+                <div [style.fontSize]="'11px'" [style.color]="isDark ? '#64748b' : '#888'">{{ inc.date }}</div>
+                <button (click)="resolve(inc._id)" [style.background]="'transparent'" [style.color]="isDark ? '#34d399' : '#059669'" [style.border]="'none'" [style.cursor]="'pointer'" [style.fontWeight]="'600'" [style.fontSize]="'12px'">{{ t('qual_resolve') }}</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Resolved Incidents -->
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">{{ t('qual_resolved_incidents') }}</div>
+      
+      @if (resolved.length === 0) {
+        <div [style.padding]="'20px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">No resolved incidents.</div>
+      } @else {
+        <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          @for (inc of resolved; track inc._id) {
+            <div [style.background]="isDark ? '#16182a' : '#f8fafc'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'10px'" [style.padding]="'16px'" [style.opacity]="'0.8'">
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.marginBottom]="'8px'">
+                <div [style.fontWeight]="'500'" [style.fontSize]="'14px'" [style.color]="isDark ? '#94a3b8' : '#555'">{{ inc.department }}</div>
+                <div [style.fontSize]="'11px'" [style.color]="isDark ? '#34d399' : '#059669'">Resolved</div>
+              </div>
+              <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#777'">{{ inc.description }}</div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Report Modal -->
+  @if (showModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'" [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'450px'" [style.padding]="'24px'">
+        <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'" [style.marginBottom]="'16px'">{{ t('qual_report_incident') }}</div>
+        <form (ngSubmit)="report()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          <input type="text" placeholder="Department" required [ngModel]="form().department" (ngModelChange)="form.set({...form(), department: $event})" name="department" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"/>
+          <select required [ngModel]="form().severity" (ngModelChange)="form.set({...form(), severity: $event})" name="severity" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+            <option value="critical">Critical</option>
+          </select>
+          <textarea placeholder="Description" required [ngModel]="form().description" (ngModelChange)="form.set({...form(), description: $event})" name="description" rows="4" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"></textarea>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showModal.set(false)" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#555'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#267bd0' : '#185FA5'" [style.color]="'#fff'" [style.border]="'none'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

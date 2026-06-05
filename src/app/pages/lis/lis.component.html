@@ -1,0 +1,95 @@
+<div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+  <div [style.background]="isDark ? 'linear-gradient(135deg,rgba(153,53,86,.15) 0%,rgba(153,53,86,.05) 100%)' : 'linear-gradient(135deg,#fbeaf0 0%,#fff 100%)'"
+       [style.border]="'0.5px solid ' + (isDark ? 'rgba(153,53,86,.4)' : '#f2d4df')"
+       [style.borderRadius]="'16px'" [style.padding]="'24px 30px'" [style.display]="'flex'"
+       [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    <div>
+      <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'" [style.marginBottom]="'8px'">
+        <div [style.background]="isDark ? '#b83b65' : '#993556'" [style.color]="'#fff'"
+             [style.width]="'32px'" [style.height]="'32px'" [style.borderRadius]="'8px'"
+             [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'">
+          <i class="ti ti-microscope" [style.fontSize]="'18px'"></i>
+        </div>
+        <div [style.fontSize]="'20px'" [style.fontWeight]="'700'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ t('mod_lis') }}</div>
+      </div>
+      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#3a3f5c'">{{ t('desc_lis') }}</div>
+    </div>
+    <button (click)="showModal.set(true)"
+            [style.background]="isDark ? '#b83b65' : '#993556'" [style.color]="'#fff'"
+            [style.padding]="'10px 20px'" [style.borderRadius]="'8px'" [style.fontSize]="'14px'"
+            [style.fontWeight]="'600'" [style.border]="'none'" [style.cursor]="'pointer'">
+      <i class="ti ti-plus"></i> {{ t('lis_new_order') }}
+    </button>
+  </div>
+
+  <div [style.display]="'grid'" [style.gridTemplateColumns]="'repeat(2, 1fr)'" [style.gap]="'20px'">
+    <!-- Active Orders -->
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">{{ t('lis_active_labs') }}</div>
+      
+      @if (active.length === 0) {
+        <div [style.padding]="'20px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">No active orders.</div>
+      } @else {
+        <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          @for (ord of active; track ord._id) {
+            <div [style.background]="isDark ? '#16182a' : '#f8fafc'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'10px'" [style.padding]="'16px'">
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.marginBottom]="'8px'">
+                <div [style.fontWeight]="'600'" [style.fontSize]="'14px'" [style.color]="isDark ? '#e2e8f0' : '#111'">{{ ord.testName }}</div>
+                <div [style.fontSize]="'11px'" [style.background]="isDark ? 'rgba(59,130,246,.1)' : '#eff6ff'" [style.color]="isDark ? '#60a5fa' : '#2563eb'" [style.padding]="'2px 8px'" [style.borderRadius]="'4px'" [style.textTransform]="'capitalize'">{{ ord.status }}</div>
+              </div>
+              <div [style.fontSize]="'13px'" [style.color]="isDark ? '#cbd5e1' : '#333'" [style.marginBottom]="'12px'">Patient: {{ getPatientName(ord.patientId) }}</div>
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.alignItems]="'center'">
+                <div [style.fontSize]="'11px'" [style.color]="isDark ? '#64748b' : '#888'">{{ t('lis_ordered_by') }}: {{ ord.orderedBy }}</div>
+                <button (click)="advance(ord._id, ord.status)" [style.background]="'transparent'" [style.color]="isDark ? '#b83b65' : '#993556'" [style.border]="'1px solid ' + (isDark ? '#b83b65' : '#993556')" [style.cursor]="'pointer'" [style.fontWeight]="'600'" [style.fontSize]="'12px'" [style.padding]="'4px 10px'" [style.borderRadius]="'6px'">{{ nextLabel(ord.status) }}</button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Completed -->
+    <div [style.background]="isDark ? '#12141f' : '#fff'" [style.border]="'0.5px solid ' + (isDark ? '#2d3148' : '#eee')"
+         [style.borderRadius]="'16px'" [style.padding]="'24px'">
+      <div [style.fontSize]="'16px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#e2e8f0' : '#111'" [style.marginBottom]="'20px'">{{ t('lis_completed_labs') }}</div>
+      
+      @if (completed.length === 0) {
+        <div [style.padding]="'20px'" [style.textAlign]="'center'" [style.color]="isDark ? '#888' : '#64748b'">No completed labs.</div>
+      } @else {
+        <div [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          @for (ord of completed; track ord._id) {
+            <div [style.background]="isDark ? '#16182a' : '#f8fafc'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#eee')" [style.borderRadius]="'10px'" [style.padding]="'16px'" [style.opacity]="'0.8'">
+              <div [style.display]="'flex'" [style.justifyContent]="'space-between'" [style.marginBottom]="'8px'">
+                <div [style.fontWeight]="'500'" [style.fontSize]="'14px'" [style.color]="isDark ? '#94a3b8' : '#555'">{{ ord.testName }}</div>
+                <div [style.fontSize]="'11px'" [style.color]="isDark ? '#34d399' : '#059669'">{{ t('lis_stat_resulted') }}</div>
+              </div>
+              <div [style.fontSize]="'13px'" [style.color]="isDark ? '#94a3b8' : '#777'">Patient: {{ getPatientName(ord.patientId) }}</div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  @if (showModal()) {
+    <div [style.position]="'fixed'" [style.top]="'0'" [style.left]="'0'" [style.right]="'0'" [style.bottom]="'0'" [style.background]="'rgba(0,0,0,0.6)'" [style.backdropFilter]="'blur(4px)'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.zIndex]="'1000'">
+      <div [style.background]="isDark ? '#12141f' : '#fff'" [style.borderRadius]="'16px'" [style.width]="'100%'" [style.maxWidth]="'450px'" [style.padding]="'24px'">
+        <div [style.fontSize]="'18px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#fff' : '#111'" [style.marginBottom]="'16px'">{{ t('lis_new_order') }}</div>
+        <form (ngSubmit)="addOrder()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'12px'">
+          <select required [ngModel]="form().patientId" (ngModelChange)="form.set({...form(), patientId: $event})" name="patientId" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">
+            <option value="">Select Patient</option>
+            @for (p of patients(); track p._id) { <option [value]="p._id">{{ p.firstName }} {{ p.lastName }}</option> }
+          </select>
+          <input type="text" placeholder="Test Name" required [ngModel]="form().testName" (ngModelChange)="form.set({...form(), testName: $event})" name="testName" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"/>
+          <input type="text" placeholder="Ordered By" required [ngModel]="form().orderedBy" (ngModelChange)="form.set({...form(), orderedBy: $event})" name="orderedBy" [style.padding]="'10px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#16182a' : '#f9fafb'" [style.color]="isDark ? '#fff' : '#111'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')"/>
+          <div [style.display]="'flex'" [style.justifyContent]="'flex-end'" [style.gap]="'10px'" [style.marginTop]="'10px'">
+            <button type="button" (click)="showModal.set(false)" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="'transparent'" [style.color]="isDark ? '#64748b' : '#555'" [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#ddd')">{{ t('btn_cancel') }}</button>
+            <button type="submit" [style.padding]="'8px 16px'" [style.borderRadius]="'8px'" [style.background]="isDark ? '#b83b65' : '#993556'" [style.color]="'#fff'" [style.border]="'none'">{{ t('btn_save') }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>
