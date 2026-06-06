@@ -7,14 +7,14 @@ import { LanguageService } from '../../services/language.service';
 import { ConvexService } from '../../services/convex.service';
 import {
   RingChartComponent, HeatmapGridComponent, StatusFunnelComponent,
-  SeverityBarsComponent, ClaimsFunnelComponent, AppointmentBarsComponent
+  SeverityBarsComponent, ClaimsFunnelComponent, AppointmentBarsComponent, PatientMonitoringComponent
 } from './panels/dashboard-panels.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [RingChartComponent, HeatmapGridComponent, StatusFunnelComponent,
-            SeverityBarsComponent, ClaimsFunnelComponent, AppointmentBarsComponent],
+            SeverityBarsComponent, ClaimsFunnelComponent, AppointmentBarsComponent, PatientMonitoringComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {

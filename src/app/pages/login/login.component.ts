@@ -40,11 +40,9 @@ export class LoginComponent {
       this.isSuccessTransition.set(true);
       setTimeout(() => {
         if (document.startViewTransition) {
-          document.documentElement.classList.add('premium-transition');
-          const t = document.startViewTransition(() => {
+          document.startViewTransition(() => {
             this.router.navigate(['/dashboard']);
           });
-          t.finished.finally(() => document.documentElement.classList.remove('premium-transition'));
         } else {
           this.router.navigate(['/dashboard']);
         }

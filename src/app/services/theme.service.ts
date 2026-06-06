@@ -12,10 +12,18 @@ export class ThemeService {
   private _load(): Theme {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
-      return stored === 'light' ? 'light' : 'dark';
+      const theme = stored === 'light' ? 'light' : 'dark';
+      this._applyClass(theme);
+      return theme;
     } catch {
+      this._applyClass('dark');
       return 'dark';
     }
+  }
+
+  private _applyClass(t: Theme) {
+    if (t === 'dark') document.documentElement.classList.add('dark');
+    else document.documentElement.classList.remove('dark');
   }
 
   toggleTheme(): void {
@@ -24,10 +32,12 @@ export class ThemeService {
     if (document.startViewTransition) {
       document.startViewTransition(() => {
         this.theme.set(next);
+        this._applyClass(next);
         try { localStorage.setItem(this.STORAGE_KEY, next); } catch {}
       });
     } else {
       this.theme.set(next);
+      this._applyClass(next);
       try { localStorage.setItem(this.STORAGE_KEY, next); } catch {}
     }
   }

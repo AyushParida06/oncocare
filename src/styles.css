@@ -60,9 +60,32 @@ input[type=date]::-webkit-calendar-picker-indicator {
   overflow: hidden;
 }
 .interactive-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(1, 64, 143, 0.4) !important;
-  filter: brightness(1.1);
+  /* Iridescent Chromatic Bubble Effect for all buttons */
+  backdrop-filter: blur(16px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  /* Background override removed to preserve the button's original inline color */
+  border-radius: 16px !important;
+  border: none !important;
+  
+  box-shadow: 
+    /* Huge inset shadow to simulate the white surface glare over the original color */
+    inset 0 30px 20px -20px rgba(255, 255, 255, 0.35),
+    /* Intense Chromatic Aberration (Iridescent Soap Bubble) */
+    inset 1px 0 0 rgba(0, 255, 255, 0.8),     /* Hard Cyan inner ring */
+    inset -1px 0 0 rgba(255, 0, 255, 0.8),    /* Hard Magenta inner ring */
+    inset 0 1px 0 rgba(255, 255, 0, 0.8),     /* Hard Yellow inner ring */
+    inset 0 -1px 0 rgba(0, 0, 255, 0.8),      /* Hard Blue inner ring */
+    inset 6px 0 16px rgba(0, 255, 255, 0.7),  /* Soft Cyan bleed */
+    inset -6px 0 16px rgba(255, 0, 255, 0.7), /* Soft Magenta bleed */
+    inset 0 6px 16px rgba(255, 255, 0, 0.6),  /* Soft Yellow bleed */
+    inset 0 -6px 16px rgba(0, 0, 255, 0.7),   /* Soft Blue bleed */
+    /* Thick white glass rim and drop shadow */
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.5) !important;
+
+  transform: scale(1.02) translateY(-2px);
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6) !important;
 }
 .interactive-btn:active {
   transform: translateY(1px);
@@ -94,9 +117,14 @@ input[type=date]::-webkit-calendar-picker-indicator {
   transition: all 0.2s ease;
 }
 .interactive-link:hover {
-  transform: translateX(4px);
-  background: rgba(99, 102, 241, 0.1) !important;
-  color: #818cf8 !important;
+  transform: translateX(4px) scale(1.02); /* Slight scale to match the old glass bubble pop */
+  background: transparent !important; /* Let the sliding bubble show through */
+  color: #4f46e5 !important; /* Indigo-600 for light mode */
+  text-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
+}
+.dark .interactive-link:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
 }
 
 /* Premium Keyframes */
@@ -135,24 +163,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Premium Cinematic View Transition */
-html.premium-transition::view-transition-old(root) {
-  animation: premium-hide 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  z-index: 2;
-}
-html.premium-transition::view-transition-new(root) {
-  animation: premium-reveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  z-index: 1;
-}
 
-@keyframes premium-hide {
-  0% { opacity: 1; transform: scale(1); filter: blur(0px); }
-  100% { opacity: 0; transform: scale(1.15); filter: blur(8px); }
-}
-@keyframes premium-reveal {
-  0% { opacity: 0; transform: scale(0.96) translateY(20px); filter: blur(4px); }
-  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
-}
 
 /* ===================================================
    Magic UI Interactive Grid Pattern
@@ -193,3 +204,45 @@ html.premium-transition::view-transition-new(root) {
   background: rgba(99, 102, 241, 0.4);
   transition-duration: 0s;
 }
+
+/* ===================================================
+   Ultra-Realistic Glassmorphism Hover
+   =================================================== */
+.sliding-glass-bubble {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  z-index: 0;
+  pointer-events: none; /* Let clicks pass through */
+  /* The magic sliding physics transition */
+  transition: 
+    top 0.1s cubic-bezier(0.2, 0, 0, 1), /* Extremely fast and responsive snap */
+    height 0.1s ease-out,
+    opacity 0.1s ease-out;
+
+  /* Light mode glass */
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  background: rgba(99, 102, 241, 0.08);
+  border-radius: 16px;
+  box-shadow: 
+    inset 0 0 0 1px rgba(99, 102, 241, 0.15),
+    0 8px 16px rgba(99, 102, 241, 0.1);
+}
+
+/* Dark mode chromatic glass */
+.dark .sliding-glass-bubble {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.02) 70%);
+  box-shadow: 
+    inset 1px 0 0 rgba(0, 255, 255, 0.8),
+    inset -1px 0 0 rgba(255, 0, 255, 0.8),
+    inset 0 1px 0 rgba(255, 255, 0, 0.8),
+    inset 0 -1px 0 rgba(0, 0, 255, 0.8),
+    inset 6px 0 16px rgba(0, 255, 255, 0.7),
+    inset -6px 0 16px rgba(255, 0, 255, 0.7),
+    inset 0 6px 16px rgba(255, 255, 0, 0.6),
+    inset 0 -6px 16px rgba(0, 0, 255, 0.7),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 10px 24px rgba(0, 0, 0, 0.5);
+}
+

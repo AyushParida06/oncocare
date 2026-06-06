@@ -98,9 +98,6 @@ function filterApi(api) {
 }
 var anyApi = createApi();
 
-// node_modules/convex/dist/esm/index.js
-var version = "1.40.0";
-
 // node_modules/convex/dist/esm/common/index.js
 function parseArgs(args) {
   if (args === void 0) {
@@ -1237,8 +1234,10 @@ var arr = () => Array.from({ length: 4 }, () => 0);
 var aBytes = arr();
 var bBytes = arr();
 
+// node_modules/convex/dist/esm/index.js
+var version = "1.40.0";
+
 export {
-  version,
   base64_exports,
   parseArgs,
   validateDeploymentUrl,
@@ -1250,6 +1249,7 @@ export {
   asObjectValidator,
   v,
   ConvexError,
+  version,
   toReferencePath,
   setReferencePath,
   getFunctionAddress,
@@ -1258,4 +1258,4 @@ export {
   filterApi,
   anyApi
 };
-//# sourceMappingURL=chunk-ASFTNMH5.js.map
+//# sourceMappingURL=chunk-SQFFQNAR.js.map

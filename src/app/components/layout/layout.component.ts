@@ -20,6 +20,23 @@ export class LayoutComponent {
   search = signal('');
   showUserMenu = signal(false);
   showLangMenu = signal(false);
+  isSidebarHovered = signal(false);
+
+  // Sliding Bubble State
+  bubbleTop = signal(0);
+  bubbleHeight = signal(0);
+  bubbleOpacity = signal(0);
+
+  moveBubble(event: MouseEvent) {
+    const target = event.currentTarget as HTMLElement;
+    this.bubbleTop.set(target.offsetTop);
+    this.bubbleHeight.set(target.offsetHeight);
+    this.bubbleOpacity.set(1);
+  }
+
+  hideBubble() {
+    this.bubbleOpacity.set(0);
+  }
 
   readonly isDark = this.themeService.isDark;
 
