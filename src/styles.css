@@ -28,7 +28,7 @@ html, body {
 
 /* Remove outline for mouse users, keep for keyboard */
 :focus:not(:focus-visible) { outline: none; }
-:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+:focus-visible { outline: 2px solid #006c54; outline-offset: 2px; }
 
 /* Remove default input styles */
 input, select, textarea, button {
@@ -97,8 +97,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
 }
 .interactive-input:focus-within {
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15) !important;
-  border-color: rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 4px 20px rgba(0, 108, 84, 0.15) !important;
+  border-color: rgba(0, 108, 84, 0.5) !important;
 }
 
 .interactive-card {
@@ -109,8 +109,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 }
 .dark .interactive-card:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(99, 102, 241, 0.1) !important;
-  border-color: rgba(99, 102, 241, 0.3) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 4px 12px rgba(0, 108, 84, 0.1) !important;
+  border-color: rgba(0, 108, 84, 0.3) !important;
 }
 
 .interactive-link {
@@ -119,7 +119,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
 .interactive-link:hover {
   transform: translateX(4px) scale(1.02); /* Slight scale to match the old glass bubble pop */
   background: transparent !important; /* Let the sliding bubble show through */
-  color: #4f46e5 !important; /* Indigo-600 for light mode */
+  color: #006c54 !important; /* Indigo-600 for light mode */
   text-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
 }
 .dark .interactive-link:hover {
@@ -137,8 +137,8 @@ input[type=date]::-webkit-calendar-picker-indicator {
   50% { transform: translateY(20px) scale(0.95); }
 }
 @keyframes glow {
-  0%, 100% { filter: drop-shadow(0 0 10px rgba(99,102,241,0.5)); }
-  50% { filter: drop-shadow(0 0 20px rgba(99,102,241,0.8)); }
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(0, 108, 84,0.5)); }
+  50% { filter: drop-shadow(0 0 20px rgba(0, 108, 84,0.8)); }
 }
 
 .animate-float { animation: float 8s ease-in-out infinite; }
@@ -201,7 +201,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
 
 .magic-grid-cell:hover {
   /* When the mouse enters, it instantly lights up */
-  background: rgba(99, 102, 241, 0.4);
+  background: rgba(0, 108, 84, 0.4);
   transition-duration: 0s;
 }
 
@@ -223,11 +223,11 @@ input[type=date]::-webkit-calendar-picker-indicator {
   /* Light mode glass */
   backdrop-filter: blur(16px) saturate(120%);
   -webkit-backdrop-filter: blur(16px) saturate(120%);
-  background: rgba(99, 102, 241, 0.08);
+  background: rgba(0, 108, 84, 0.08);
   border-radius: 16px;
   box-shadow: 
-    inset 0 0 0 1px rgba(99, 102, 241, 0.15),
-    0 8px 16px rgba(99, 102, 241, 0.1);
+    inset 0 0 0 1px rgba(0, 108, 84, 0.15),
+    0 8px 16px rgba(0, 108, 84, 0.1);
 }
 
 /* Dark mode chromatic glass */
