@@ -1,4 +1,4 @@
-# OncoCare HMS
+# VistaOnco HMS
 
 Cancer-focused Hospital Management System built with **React + Convex**.
 
