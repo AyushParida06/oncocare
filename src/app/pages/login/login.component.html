@@ -1,143 +1,194 @@
-<div [style.minHeight]="'100vh'" [style.display]="'flex'" [style.alignItems]="'center'"
-     [style.justifyContent]="'center'" [style.position]="'relative'" [style.overflow]="'hidden'"
-     [style.transition]="'background 0.3s'" [style.background]="isDark ? '#12141f' : '#f4f6f8'"
+<div [style.minHeight]="'100vh'" [style.display]="'flex'" [style.flexDirection]="'column'" 
+     [style.backgroundColor]="'#fcfcfc'" [style.color]="'#232323'"
+     [style.backgroundImage]="'linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px)'"
+     [style.backgroundSize]="'40px 40px'"
      [style.fontFamily]="'-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif'">
 
-  <!-- Magic Interactive Grid Pattern -->
-  <div class="magic-grid-container" [class.active]="isSuccessTransition()">
-    @for (cell of gridCells; track $index) {
-      <div class="magic-grid-cell"></div>
-    }
-  </div>
-
-  <!-- Decorative blobs -->
-  <div class="animate-float" [class.login-success-fade]="isSuccessTransition()" [style.position]="'absolute'" [style.top]="'-10%'" [style.left]="'-5%'" [style.width]="'50vw'"
-       [style.height]="'50vw'" [style.borderRadius]="'50%'" [style.zIndex]="'0'" [style.pointerEvents]="'none'"
-       [style.background]="isDark ? 'radial-gradient(circle,rgba(99,102,241,.12) 0%,rgba(18,20,31,0) 70%)' : 'radial-gradient(circle,rgba(59,130,246,.06) 0%,rgba(244,246,248,0) 70%)'"></div>
-  <div class="animate-float-reverse" [class.login-success-fade]="isSuccessTransition()" [style.position]="'absolute'" [style.bottom]="'-15%'" [style.right]="'-10%'" [style.width]="'60vw'"
-       [style.height]="'60vw'" [style.borderRadius]="'50%'" [style.zIndex]="'0'" [style.pointerEvents]="'none'"
-       [style.background]="isDark ? 'radial-gradient(circle,rgba(129,140,248,.10) 0%,rgba(18,20,31,0) 70%)' : 'radial-gradient(circle,rgba(99,102,241,.05) 0%,rgba(244,246,248,0) 70%)'"></div>
-
-  <!-- Theme toggle -->
-  <div (click)="toggleTheme()" [class.login-success-fade]="isSuccessTransition()" [style.position]="'absolute'" [style.top]="'24px'" [style.right]="'24px'"
-       [style.zIndex]="'10'" [style.width]="'40px'" [style.height]="'40px'" [style.borderRadius]="'50%'"
-       [style.background]="isDark ? 'rgba(255,255,255,.08)' : '#fff'"
-       [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#e5e7eb')"
-       [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'"
-       [style.cursor]="'pointer'" [style.color]="isDark ? '#fbbf24' : '#64748b'">
-    <i [class]="'ti ' + (isDark ? 'ti-sun' : 'ti-moon')" [style.fontSize]="'20px'"></i>
-  </div>
-
-  <!-- Card -->
-  <div [class.login-success-card]="isSuccessTransition()" [style.width]="'100%'" [style.maxWidth]="'420px'" [style.zIndex]="'1'" [style.position]="'relative'"
-       [style.background]="isDark ? 'rgba(30,32,48,.92)' : 'rgba(255,255,255,.95)'"
-       [style.backdropFilter]="'blur(16px)'"
-       [style.border]="'1px solid ' + (isDark ? '#2d3148' : '#e5e7eb')"
-       [style.borderRadius]="'24px'" [style.padding]="'48px 40px'"
-       [style.boxShadow]="isDark ? '0 8px 40px rgba(0,0,0,.6),0 0 32px rgba(99,102,241,.12)' : '0 12px 40px rgba(0,0,0,.10)'">
-
+  <!-- Top Nav -->
+  <header [style.padding]="'24px 48px'" [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'space-between'">
+    
     <!-- Logo -->
-    <div [class.login-logo-centered]="isSuccessTransition()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.alignItems]="'center'" [style.marginBottom]="'40px'">
-      <svg viewBox="0 0 240 240" width="64" height="64" fill="none" [style.flexShrink]="'0'" [style.marginBottom]="'16px'">
-        <path d="M240 124C240 141.673 225.673 156 208 156H204C181.373 156 170.059 156 163.029 163.029C156 170.059 156 181.373 156 204V240H124V220C124 174.745 124 152.117 138.059 138.059C152.118 124 174.745 124 220 124H240ZM116 20C116 65.2548 116 87.8825 101.941 101.941C87.8826 116 65.2549 116 20.0001 116H6.10352e-05C6.02626e-05 98.3269 14.3269 84 32.0001 84H36.0001C58.6275 84 69.9413 84.0001 76.9708 76.9707C84.0002 69.9413 84.0001 58.6274 84.0001 36V0H116V20ZM124 0C141.673 0 156 14.3269 156 32V36C156 58.6274 156 69.9413 163.029 76.9707C170.059 84.0001 181.373 84 204 84H240V116H220C174.745 116 152.118 116 138.059 101.941C124 87.8825 124 65.2548 124 20V0Z" [attr.fill]="isDark ? '#e5e7eb' : '#232323'"></path>
+    <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'12px'">
+      <svg viewBox="0 0 240 240" width="44" height="44" fill="none" [style.flexShrink]="'0'">
+        <path d="M240 124C240 141.673 225.673 156 208 156H204C181.373 156 170.059 156 163.029 163.029C156 170.059 156 181.373 156 204V240H124V220C124 174.745 124 152.117 138.059 138.059C152.118 124 174.745 124 220 124H240ZM116 20C116 65.2548 116 87.8825 101.941 101.941C87.8826 116 65.2549 116 20.0001 116H6.10352e-05C6.02626e-05 98.3269 14.3269 84 32.0001 84H36.0001C58.6275 84 69.9413 84.0001 76.9708 76.9707C84.0002 69.9413 84.0001 58.6274 84.0001 36V0H116V20ZM124 0C141.673 0 156 14.3269 156 32V36C156 58.6274 156 69.9413 163.029 76.9707C170.059 84.0001 181.373 84 204 84H240V116H220C174.745 116 152.118 116 138.059 101.941C124 87.8825 124 65.2548 124 20V0Z" fill="#232323"></path>
         <path d="M116 240C98.3269 240 84 225.673 84 208L84 204C84 181.373 84.0001 170.059 76.9707 163.029C69.9413 156 58.6274 156 36 156L-7.34351e-06 156L-1.0141e-05 124L20 124C65.2548 124 87.8825 124 101.941 138.059C116 152.117 116 174.745 116 220L116 240Z" fill="#006c54"></path>
       </svg>
-      <div [style.fontSize]="'32px'" [style.fontWeight]="'800'" [style.fontFamily]="'\'Playfair Display\', serif'"
-           [style.letterSpacing]="'-0.5px'">
-        <span [style.color]="isDark ? '#e5e7eb' : '#232323'">Vista</span><span [style.color]="'#006c54'" [style.fontStyle]="'italic'">Onco</span>
-      </div>
-      <div [style.fontSize]="'13px'" [style.color]="isDark ? '#aaa' : '#666'" [style.marginTop]="'8px'" [style.fontWeight]="'500'">
-        Hospital Management System
+      <div [style.fontSize]="'32px'" [style.fontWeight]="'800'" [style.fontFamily]="'\'Playfair Display\', serif'" [style.letterSpacing]="'-0.5px'">
+        <span [style.color]="'#232323'">Vista</span><span [style.color]="'#006c54'" [style.fontStyle]="'italic'">Onco</span>
       </div>
     </div>
 
-    <!-- Form -->
-    <form (ngSubmit)="handleLogin()" [class.login-success-fade]="isSuccessTransition()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'20px'">
+    <!-- Center Links -->
+    <nav [style.display]="'flex'" [style.gap]="'40px'" [style.fontWeight]="'500'" [style.color]="'#555'" [style.fontSize]="'16px'">
+      <a href="#" [style.textDecoration]="'none'" [style.color]="'#666'">Why VistaOnco</a>
+      <a href="#" [style.textDecoration]="'none'" [style.color]="'#232323'" [style.fontWeight]="'600'">Our solutions</a>
+      <a href="#" [style.textDecoration]="'none'" [style.color]="'#666'">Aegis</a>
+    </nav>
 
-      <!-- Email -->
-      <div>
-        <div [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#ccc' : '#555'"
-             [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Email Address</div>
-        <div [style.position]="'relative'">
-          <i class="ti ti-mail" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
-             [style.transform]="'translateY(-50%)'" [style.color]="isDark ? '#888' : '#aaa'" [style.fontSize]="'18px'"></i>
-          <input type="email" name="email" class="interactive-input" [ngModel]="email()" (ngModelChange)="email.set($event)" required
-                 placeholder="dr.ramesh@vistaonco.com"
-                 [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
-                 [style.background]="isDark ? '#1a1a1a' : '#f9fafb'"
-                 [style.border]="'1px solid ' + (isDark ? '#444' : '#e5e7eb')"
-                 [style.color]="isDark ? '#f5f5f5' : '#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
-        </div>
-      </div>
+    <!-- Right Button -->
+    <button [style.background]="'#006c54'" [style.color]="'#fff'" [style.border]="'none'" [style.padding]="'12px 24px'" 
+            [style.borderRadius]="'9999px'" [style.fontWeight]="'600'" [style.fontSize]="'15px'" [style.cursor]="'pointer'"
+            [style.boxShadow]="'0 4px 12px rgba(0,108,84,0.2)'" [style.transition]="'all 0.2s ease'"
+            onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(0,108,84,0.3)';"
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,108,84,0.2)';">
+      Book a demo
+    </button>
+  </header>
 
-      <!-- Password -->
-      <div>
-        <div [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#ccc' : '#555'"
-             [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Password</div>
-        <div [style.position]="'relative'">
-          <i class="ti ti-lock" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
-             [style.transform]="'translateY(-50%)'" [style.color]="isDark ? '#888' : '#aaa'" [style.fontSize]="'18px'"></i>
-          <input type="password" name="password" class="interactive-input" [ngModel]="password()" (ngModelChange)="password.set($event)" required
-                 placeholder="••••••••"
-                 [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
-                 [style.background]="isDark ? '#1a1a1a' : '#f9fafb'"
-                 [style.border]="'1px solid ' + (isDark ? '#444' : '#e5e7eb')"
-                 [style.color]="isDark ? '#f5f5f5' : '#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
-        </div>
-        <div [style.fontSize]="'11px'" [style.color]="isDark ? '#777' : '#999'" [style.marginTop]="'5px'" [style.marginLeft]="'4px'">
-          Minimum 8 characters required
-        </div>
-      </div>
+  <!-- Hero Section -->
+  <main [style.flex]="'1'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.alignItems]="'center'" [style.paddingTop]="'90px'">
+    
+    <h1 [style.fontSize]="'80px'" [style.fontWeight]="'800'" [style.fontFamily]="'\'Playfair Display\', serif'" [style.letterSpacing]="'-1.5px'" [style.marginBottom]="'24px'" [style.textAlign]="'center'">
+      <span [style.color]="'#232323'">Solutions that fit </span><span [style.color]="'#006c54'" [style.fontStyle]="'italic'">your facility</span>
+    </h1>
 
-      <!-- Confirm Password (signup only) -->
-      @if (isSignUp()) {
-        <div>
-          <div [style.fontSize]="'12px'" [style.fontWeight]="'600'" [style.color]="isDark ? '#ccc' : '#555'"
-               [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Confirm Password</div>
-          <div [style.position]="'relative'">
-            <i class="ti ti-lock-check" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
-               [style.transform]="'translateY(-50%)'" [style.color]="isDark ? '#888' : '#aaa'" [style.fontSize]="'18px'"></i>
-            <input type="password" name="confirmPassword" class="interactive-input" [ngModel]="confirmPassword()" (ngModelChange)="confirmPassword.set($event)"
-                   placeholder="Re-enter your password"
-                   [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
-                   [style.background]="isDark ? '#1a1a1a' : '#f9fafb'"
-                   [style.border]="'1px solid ' + (passwordMismatch() ? '#ef4444' : (isDark ? '#444' : '#e5e7eb'))"
-                   [style.color]="isDark ? '#f5f5f5' : '#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
-          </div>
-          @if (passwordMismatch()) {
-            <div [style.fontSize]="'11px'" [style.color]="'#ef4444'" [style.marginTop]="'5px'" [style.marginLeft]="'4px'">
-              Passwords do not match
-            </div>
-          }
-        </div>
-      }
+    <p [style.fontSize]="'22px'" [style.color]="'#666'" [style.marginBottom]="'56px'" [style.fontWeight]="'400'" [style.textAlign]="'center'" [style.lineHeight]="'1.5'">
+      From private practice to 1,000-bed networks, we have a<br>solution for you.
+    </p>
 
-      <!-- Submit -->
-      <button type="submit" [disabled]="loading()" class="interactive-btn"
-              [style.marginTop]="'12px'" [style.width]="'100%'" [style.padding]="'14px'"
-              [style.borderRadius]="'12px'"
-              [style.background]="loading() ? (isDark ? '#444' : '#ccc') : 'linear-gradient(135deg,#01408F 0%,#003689 100%)'"
-              [style.color]="'#fff'" [style.fontSize]="'15px'" [style.fontWeight]="'600'"
-              [style.border]="'none'" [style.cursor]="loading() ? 'not-allowed' : 'pointer'"
-              [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.gap]="'8px'"
-              [style.boxShadow]="'0 4px 14px rgba(1,64,143,.3)'">
-        @if (loading()) {
-          <i class="ti ti-loader spin"></i> Authenticating...
-        } @else {
-          {{ isSignUp() ? 'Create Account' : 'Sign In' }} <i class="ti ti-arrow-right"></i>
-        }
+    <!-- Action Buttons -->
+    <div [style.display]="'flex'" [style.gap]="'20px'" [style.marginBottom]="'100px'">
+      <button [style.background]="'#006c54'" [style.color]="'#fff'" [style.border]="'none'" [style.padding]="'16px 32px'" 
+              [style.borderRadius]="'9999px'" [style.fontWeight]="'600'" [style.fontSize]="'17px'" [style.cursor]="'pointer'"
+              [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'"
+              [style.transition]="'all 0.2s ease'"
+              onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 6px 16px rgba(0,108,84,0.3)';"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+        Find your fit
+        <i class="ti ti-chevron-down"></i>
       </button>
 
-      @if (errorMsg()) {
-        <div [style.color]="'#ef4444'" [style.fontSize]="'14px'" [style.textAlign]="'center'">{{ errorMsg() }}</div>
-      }
+      <button [style.background]="'#fff'" [style.color]="'#232323'" [style.border]="'1px solid #d1d5db'" [style.padding]="'16px 32px'" 
+              [style.borderRadius]="'9999px'" [style.fontWeight]="'500'" [style.fontSize]="'17px'" [style.cursor]="'pointer'"
+              [style.transition]="'all 0.2s ease'"
+              onmouseover="this.style.background='#f9fafb';"
+              onmouseout="this.style.background='#fff';">
+        Build your own configuration
+      </button>
+    </div>
 
-      <div [style.textAlign]="'center'" [style.fontSize]="'14px'" [style.color]="isDark ? '#aaa' : '#666'" [style.marginTop]="'10px'">
-        {{ isSignUp() ? 'Already have an account? ' : "Don't have an account? " }}
-        <span (click)="toggleMode()" [style.color]="'#01408F'" [style.cursor]="'pointer'" [style.fontWeight]="'600'">
-          {{ isSignUp() ? 'Sign In' : 'Sign Up' }}
-        </span>
+    <!-- Divider & Login Section -->
+    <div [style.width]="'100%'" [style.maxWidth]="'900px'" [style.borderTop]="'1px solid #bce1d3'" [style.paddingTop]="'50px'" [style.display]="'flex'" [style.flexDirection]="'column'" [style.marginBottom]="'100px'">
+      
+      <div [style.background]="'#f3f4f6'" [style.padding]="'6px 16px'" [style.borderRadius]="'9999px'" [style.fontSize]="'11px'" [style.fontWeight]="'700'" [style.letterSpacing]="'1.5px'" [style.color]="'#666'" [style.alignSelf]="'flex-start'" [style.marginBottom]="'32px'">
+        PRODUCT DETAILS
       </div>
-    </form>
-  </div>
+
+      <!-- Left-aligned content and Right-aligned login card -->
+      <div [style.display]="'flex'" [style.gap]="'64px'" [style.alignItems]="'flex-start'">
+        
+        <!-- Left Side -->
+        <div [style.flex]="'1'">
+          <div [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'8px'" [style.marginBottom]="'16px'">
+            <div [style.fontSize]="'36px'" [style.fontWeight]="'800'" [style.fontFamily]="'\'Playfair Display\', serif'" [style.letterSpacing]="'-0.5px'">
+              <span [style.color]="'#232323'">Vista</span><span [style.color]="'#006c54'" [style.fontStyle]="'italic'">Onco</span>
+            </div>
+          </div>
+          <h2 [style.fontSize]="'22px'" [style.fontWeight]="'400'" [style.color]="'#232323'" [style.marginBottom]="'24px'">
+            Multidisciplinary Cancer Care — Connected Oncology Platform
+          </h2>
+          <p [style.fontSize]="'16px'" [style.color]="'#666'" [style.lineHeight]="'1.6'" [style.marginBottom]="'32px'">
+            A connected oncology platform that brings together cancer care, diagnostics, radiology, and patient management seamlessly into one unified experience.
+          </p>
+        </div>
+
+        <!-- Right Side (Login Card) -->
+        <div [class.login-success-card]="isSuccessTransition()" [style.width]="'100%'" [style.maxWidth]="'400px'" [style.position]="'relative'"
+             [style.background]="'#fff'" [style.border]="'1px solid #e5e7eb'"
+             [style.borderRadius]="'24px'" [style.padding]="'40px 32px'"
+             [style.boxShadow]="'0 12px 40px rgba(0,0,0,.04)'">
+
+          <h3 [style.fontSize]="'22px'" [style.fontWeight]="'700'" [style.fontFamily]="'\'Playfair Display\', serif'" [style.marginBottom]="'8px'" [style.textAlign]="'center'" [style.color]="'#232323'">
+            Access your platform
+          </h3>
+          <p [style.fontSize]="'14px'" [style.color]="'#666'" [style.textAlign]="'center'" [style.marginBottom]="'24px'">
+            Sign in to the connected oncology system.
+          </p>
+
+          <!-- Form -->
+          <form (ngSubmit)="handleLogin()" [class.login-success-fade]="isSuccessTransition()" [style.display]="'flex'" [style.flexDirection]="'column'" [style.gap]="'16px'">
+
+            <!-- Email -->
+            <div>
+              <div [style.fontSize]="'13px'" [style.fontWeight]="'600'" [style.color]="'#555'"
+                   [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Email Address</div>
+              <div [style.position]="'relative'">
+                <i class="ti ti-mail" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
+                   [style.transform]="'translateY(-50%)'" [style.color]="'#aaa'" [style.fontSize]="'18px'"></i>
+                <input type="email" name="email" class="interactive-input" [ngModel]="email()" (ngModelChange)="email.set($event)" required
+                       placeholder="dr.ramesh@vistaonco.com"
+                       [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
+                       [style.background]="'#f9fafb'" [style.border]="'1px solid #e5e7eb'"
+                       [style.color]="'#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div>
+              <div [style.fontSize]="'13px'" [style.fontWeight]="'600'" [style.color]="'#555'"
+                   [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Password</div>
+              <div [style.position]="'relative'">
+                <i class="ti ti-lock" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
+                   [style.transform]="'translateY(-50%)'" [style.color]="'#aaa'" [style.fontSize]="'18px'"></i>
+                <input type="password" name="password" class="interactive-input" [ngModel]="password()" (ngModelChange)="password.set($event)" required
+                       placeholder="••••••••"
+                       [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
+                       [style.background]="'#f9fafb'" [style.border]="'1px solid #e5e7eb'"
+                       [style.color]="'#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
+              </div>
+            </div>
+
+            <!-- Confirm Password (signup only) -->
+            @if (isSignUp()) {
+              <div>
+                <div [style.fontSize]="'13px'" [style.fontWeight]="'600'" [style.color]="'#555'"
+                     [style.marginBottom]="'8px'" [style.marginLeft]="'4px'">Confirm Password</div>
+                <div [style.position]="'relative'">
+                  <i class="ti ti-lock-check" [style.position]="'absolute'" [style.left]="'14px'" [style.top]="'50%'"
+                     [style.transform]="'translateY(-50%)'" [style.color]="'#aaa'" [style.fontSize]="'18px'"></i>
+                  <input type="password" name="confirmPassword" class="interactive-input" [ngModel]="confirmPassword()" (ngModelChange)="confirmPassword.set($event)"
+                         placeholder="Re-enter your password"
+                         [style.width]="'100%'" [style.padding]="'12px 16px 12px 42px'" [style.borderRadius]="'12px'"
+                         [style.background]="'#f9fafb'" [style.border]="'1px solid ' + (passwordMismatch() ? '#ef4444' : '#e5e7eb')"
+                         [style.color]="'#111'" [style.fontSize]="'14px'" [style.outline]="'none'"/>
+                </div>
+                @if (passwordMismatch()) {
+                  <div [style.fontSize]="'12px'" [style.color]="'#ef4444'" [style.marginTop]="'6px'" [style.marginLeft]="'4px'">
+                    Passwords do not match
+                  </div>
+                }
+              </div>
+            }
+
+            <!-- Submit -->
+            <button type="submit" [disabled]="loading()" 
+                    [style.marginTop]="'12px'" [style.width]="'100%'" [style.padding]="'14px'"
+                    [style.borderRadius]="'9999px'" [style.background]="loading() ? '#ccc' : '#006c54'"
+                    [style.color]="'#fff'" [style.fontSize]="'15px'" [style.fontWeight]="'600'"
+                    [style.border]="'none'" [style.cursor]="loading() ? 'not-allowed' : 'pointer'"
+                    [style.display]="'flex'" [style.alignItems]="'center'" [style.justifyContent]="'center'" [style.gap]="'8px'"
+                    [style.transition]="'all 0.2s'">
+              @if (loading()) {
+                <i class="ti ti-loader spin"></i> Authenticating...
+              } @else {
+                {{ isSignUp() ? 'Create Account' : 'Sign In' }} <i class="ti ti-arrow-right"></i>
+              }
+            </button>
+
+            @if (errorMsg()) {
+              <div [style.color]="'#ef4444'" [style.fontSize]="'14px'" [style.textAlign]="'center'">{{ errorMsg() }}</div>
+            }
+
+            <div [style.textAlign]="'center'" [style.fontSize]="'14px'" [style.color]="'#666'" [style.marginTop]="'8px'">
+              {{ isSignUp() ? 'Already have an account? ' : "Don't have an account? " }}
+              <span (click)="toggleMode()" [style.color]="'#006c54'" [style.cursor]="'pointer'" [style.fontWeight]="'600'">
+                {{ isSignUp() ? 'Sign In' : 'Sign Up' }}
+              </span>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </main>
 </div>
