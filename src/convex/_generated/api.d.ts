@@ -15,6 +15,7 @@ import type * as chemoSessions from "../chemoSessions.js";
 import type * as clinical from "../clinical.js";
 import type * as http from "../http.js";
 import type * as inpatient from "../inpatient.js";
+import type * as journey from "../journey.js";
 import type * as lis from "../lis.js";
 import type * as nursing from "../nursing.js";
 import type * as patients from "../patients.js";
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   clinical: typeof clinical;
   http: typeof http;
   inpatient: typeof inpatient;
+  journey: typeof journey;
   lis: typeof lis;
   nursing: typeof nursing;
   patients: typeof patients;

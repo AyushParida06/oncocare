@@ -1,0 +1,23 @@
+<div class="journey-container" *ngIf="!loading">
+  <h2 class="journey-title">Treatment Journey</h2>
+  <div class="steps" *ngIf="steps.length; else noSteps">
+    <div class="step-card" *ngFor="let step of steps" [class.completed]="!!step.completedAt">
+      <div class="step-header">
+        <span class="step-order">{{ step.order }}.</span>
+        <span class="step-title">{{ step.title }}</span>
+      </div>
+      <div class="step-body" *ngIf="step.description">
+        {{ step.description }}
+      </div>
+      <div class="step-status" *ngIf="step.completedAt">
+        Completed at: {{ step.completedAt | date:'short' }}
+      </div>
+      <button *ngIf="isClinician && !step.completedAt" class="complete-btn" (click)="complete(step)">Mark Complete</button>
+    </div>
+  </div>
+  <ng-template #noSteps>
+    <p class="no-steps">No journey steps available.</p>
+  </ng-template>
+  <button *ngIf="isClinician" class="add-btn" (click)="addStep()">Add New Step</button>
+</div>
+<div *ngIf="loading" class="loading-spinner">Loading…</div>

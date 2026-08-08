@@ -89,6 +89,19 @@
         </div>
       }
     </nav>
+      <!-- New Journey link -->
+      <a [routerLink]="'/journey'" routerLinkActive="nav-active" class="interactive-link"
+         (mouseenter)="moveBubble($event)"
+         [style.position]="'relative'" [style.zIndex]="'1'"
+         [style.display]="'flex'" [style.alignItems]="'center'" [style.gap]="'10px'"
+         [style.padding]="'8px 12px'" [style.margin]="'1px 6px'"
+         [style.borderRadius]="'8px'" [style.fontSize]="'13px'"
+         [style.color]="isDark() ? '#e2e8f0' : '#555'"
+         [style.cursor]="'pointer'" [style.textDecoration]="'none'"
+         [title]="!isSidebarHovered() ? 'Journey' : ''">
+        <i class="ti ti-activity" [style.fontSize]="'18px'" [style.minWidth]="'20px'" [style.textAlign]="'center'"></i>
+        <span [style.opacity]="isSidebarHovered() ? '1' : '0'" [style.transition]="'opacity 0.2s ease-in-out'" [style.whiteSpace]="'nowrap'">Journey</span>
+      </a>
   </aside>
 
   <!-- Main -->

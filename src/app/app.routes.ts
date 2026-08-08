@@ -26,6 +26,7 @@ export const routes: Routes = [
       { path: 'pharmacy-mgmt',    loadComponent: () => import('./pages/pharmacy-mgmt/pharmacy-mgmt.component').then(m => m.PharmacyMgmtComponent) },
       { path: 'patient-billing',  loadComponent: () => import('./pages/patient-billing/patient-billing.component').then(m => m.PatientBillingComponent) },
       { path: 'revenue-cycle',    loadComponent: () => import('./pages/revenue-cycle/revenue-cycle.component').then(m => m.RevenueCycleComponent) },
+      { path: 'journey',          loadComponent: () => import('./pages/treatment-journey/treatment-journey.component').then(m => m.TreatmentJourneyComponent) }
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

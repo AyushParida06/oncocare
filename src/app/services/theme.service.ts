@@ -12,12 +12,12 @@ export class ThemeService {
   private _load(): Theme {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
-      const theme = stored === 'light' ? 'light' : 'dark';
+      const theme = stored === 'dark' ? 'dark' : 'light';
       this._applyClass(theme);
       return theme;
     } catch {
-      this._applyClass('dark');
-      return 'dark';
+      this._applyClass('light');
+      return 'light';
     }
   }
 

@@ -19,6 +19,16 @@ export default defineSchema({
     primaryOncologist: v.string(),
     status: v.string(), // active, remission, palliative, discharged
     insurance: v.string(),
+    journeySteps: v.optional(
+      v.array(
+        v.object({
+          title: v.string(),
+          description: v.optional(v.string()),
+          order: v.number(),
+          completedAt: v.optional(v.string()),
+        })
+      ),
+    ),
   }).index("by_mrn", ["mrn"]),
 
   appointments: defineTable({

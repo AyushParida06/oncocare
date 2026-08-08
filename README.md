@@ -1,6 +1,6 @@
 # VistaOnco HMS
 
-Cancer-focused Hospital Management System built with **React + Convex**.
+**VistaOnco** is a cancer‑focused Hospital Management System built with **Angular 17** on the frontend and **Convex** as a real‑time backend.
 
 ---
 
@@ -13,41 +13,34 @@ npm install
 ```
 
 ### Step 2 — Create a free Convex account
-Go to https://convex.dev and sign up (free, no credit card).
+Visit https://convex.dev, sign up (free, no credit card required).
 
 ### Step 3 — Connect Convex to your project
 ```bash
 npx convex dev
 ```
-- It will open your browser and ask you to log in.
-- Select **"Create a new project"** and name it `oncocare`.
-- It auto-generates `convex/_generated/` and prints your deployment URL.
-- **Keep this terminal running** — it syncs your backend in real time.
+- A browser window will open; log in with your Convex account.
+- Choose **"Create a new project"** and name it `oncocare`.
+- Convex will generate the `convex/_generated/` folder and display your deployment URL.
+- **Leave this terminal running** – it keeps the backend in sync.
 
-### Step 4 — Start React (in a new terminal)
+### Step 4 — Run the Angular app (in a new terminal)
 ```bash
 npm start
 ```
-
-Open **http://localhost:3000** — your app is now live with a real backend!
+Open **http://localhost:4200** – the application is now live with a real backend!
 
 ---
 
 ## 🌱 Load Demo Data
-
-Once the app is running, go to the Convex dashboard:
-https://dashboard.convex.dev
-
-1. Open your project → **Functions** tab
-2. Find `seed → seedDemoData`
-3. Click **Run** — this inserts 3 patients, appointments, chemo sessions, lab results, billing etc.
-
-You'll see real data appear instantly in the Home and Dashboard pages.
+While the app is running, load sample data from the Convex dashboard:
+1. Go to https://dashboard.convex.dev and open your project.
+2. Navigate to the **Functions** tab and locate `seed → seedDemoData`.
+3. Click **Run** – this inserts patients, appointments, chemotherapy sessions, lab results, billing records, and more.
 
 ---
 
 ## 🗂 Project Structure
-
 ```
 oncocare/
 ├── convex/                   ← BACKEND (Convex)
@@ -55,82 +48,59 @@ oncocare/
 │   ├── patients.ts           ← Patient CRUD + search + stats
 │   ├── appointments.ts       ← Appointment scheduling
 │   ├── chemoSessions.ts      ← Chemotherapy session management
-│   ├── clinical.ts           ← Labs, radiology, admissions, emergency, pharmacy, billing
+│   ├── clinical.ts           ← Labs, radiology, admissions, pharmacy, billing etc.
 │   ├── oncology.ts           ← Tumour registry, clinical trials, palliative care
 │   └── seed.ts               ← Demo data seeder
 │
-├── src/                      ← FRONTEND (React)
-│   ├── App.js                ← Routes
-│   ├── index.js              ← ConvexProvider wraps the app
-│   ├── components/
-│   │   ├── Layout.js         ← Sidebar + topbar
-│   │   └── PlaceholderPage.js
-│   └── pages/
-│       ├── Home.js           ← Live stats from Convex
-│       ├── Dashboard.js      ← Live charts from Convex
-│       ├── Appointments.js   ← Real appointment list + create form
-│       └── ...               ← Other module pages
+├── src/                      ← FRONTEND (Angular)
+│   ├── app/
+│   │   ├── pages/            ← Feature pages (outpatient, inpatient, pharmacy‑mgmt, ...)
+│   │   ├── components/       ← Re‑usable UI components (layout, buttons, modals)
+│   │   ├── services/         ← Convex service, theme service, language service, auth, etc.
+│   │   └── guards/           ← Route guards (auth)
+│   ├── assets/               ← Images, icons
+│   └── styles/               ← Global CSS, design tokens
 │
-└── package.json
+├── package.json
+└── README.md
 ```
+---
+
+## 🎨 Design & Theme
+- **Default theme:** Light mode (the app now starts in light mode if no preference is stored). Users can toggle to dark mode via the theme switch in the top‑right corner.
+- **Responsive UI:** Uses modern CSS gradients, glass‑morphism cards, and micro‑animations for a premium look.
+- **Multilingual support:** English, Hindi, and Tamil via `LanguageService`.
 
 ---
 
-## 🔌 How Convex Works
-
-**No REST API needed.** Convex functions are called directly from React:
-
-```js
-import { useQuery, useMutation } from 'convex/react';
-import { api } from '../../convex/_generated/api';
-
-// Real-time query — auto-updates when DB changes
-const patients = useQuery(api.patients.list, { status: 'active' });
-
-// Mutation — writes to DB
-const createPatient = useMutation(api.patients.create);
-await createPatient({ mrn: 'OC-001', firstName: 'Meera', ... });
-```
-
-**Real-time:** All `useQuery` hooks update instantly across all browser tabs when data changes.
-
----
-
-## 📦 Database Tables
-
-| Table | Description |
-|---|---|
-| `patients` | Patient demographics + cancer info |
-| `appointments` | All appointment bookings |
-| `chemoSessions` | Chemotherapy cycles and drugs |
-| `labResults` | Lab orders and structured results |
-| `radiologyOrders` | Imaging orders and reports |
-| `admissions` | Inpatient admissions and discharges |
-| `emergencyVisits` | ED triage and assessments |
-| `prescriptions` | Medication orders and dispensing |
-| `bills` | Invoices, payments, insurance |
-| `tumourRegistry` | TNM staging and registry data |
-| `clinicalTrials` | Trial info and enrolments |
-| `palliativeCare` | Palliative plans and pain scores |
-
----
-
-## 🔧 Tech Stack
-
+## 📦 Tech Stack
 | Layer | Technology |
 |---|---|
-| Frontend | React 18 + React Router v6 |
-| Backend | Convex (real-time serverless) |
-| Database | Convex built-in (no SQL setup) |
+| Frontend | Angular 17 + Angular Router |
+| Backend | Convex (real‑time serverless) |
+| Database | Convex built‑in (no external SQL) |
 | Icons | Tabler Icons |
-| Auth | Add Convex Auth (optional) |
+| Auth | Convex Auth (optional) |
+| Styling | Vanilla CSS with design tokens |
+
+---
+
+## 🔧 Development Tips
+- **Live reloading:** `npm start` watches for changes in both Angular and Convex files.
+- **Theme debugging:** The `ThemeService` stores the theme in `localStorage` under `vistaonco_theme`.
+- **Language debugging:** The `LanguageService` stores the chosen language under `vistaonco_lang`.
+- **Error monitoring:** `catch_errors.js` runs a headless Puppeteer script that logs console messages and request failures while the dev server is running.
 
 ---
 
 ## 🚀 Deploy to Production
-
 ```bash
-npx convex deploy        # Deploy backend
-npm run build            # Build React app
-# Host the build/ folder on Vercel, Netlify, or any static host
+npx convex deploy          # Deploy Convex backend
+npm run build              # Build Angular app (output in dist/)
+# Deploy the dist/ folder to Vercel, Netlify, Azure Static Web Apps, or any static host.
 ```
+
+---
+
+## 📄 License
+This project is open‑source under the MIT License.
