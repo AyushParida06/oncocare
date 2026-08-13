@@ -1,0 +1,321 @@
+<div class="vd-page" [class.dark]="isDark">
+
+  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+  <div class="vd-header">
+    <div class="vd-header-left">
+      <div class="vd-header-icon">
+        <i class="ti ti-heart-rate-monitor"></i>
+      </div>
+      <div>
+        <h1 class="vd-title">AI Vital Detector</h1>
+        <p class="vd-subtitle">Camera-based vital sign estimation · Powered by rPPG</p>
+      </div>
+    </div>
+    <div class="vd-disclaimer-badge">
+      <i class="ti ti-info-circle"></i>
+      Wellness screening only — not a clinical device
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ MAIN GRID ═════════════════════════════ -->
+  <div class="vd-grid">
+
+    <!-- ── LEFT COLUMN: Camera + Controls ──────────────────────────────── -->
+    <div class="vd-left-col">
+
+      <!-- Camera Card -->
+      <div class="vd-card vd-camera-card">
+        <div class="vd-card-header">
+          <span class="vd-card-title"><i class="ti ti-camera"></i> Live Camera Feed</span>
+          <span class="vd-status-pill" [class]="'pill-' + status()">
+            <span class="pill-dot"></span>
+            {{ status() === 'idle' ? 'Ready' : status() === 'requesting' ? 'Requesting…' :
+               status() === 'scanning' ? 'Scanning' : status() === 'done' ? 'Complete' : 'Error' }}
+          </span>
+        </div>
+
+        <!-- Video preview -->
+        <div class="vd-video-wrapper">
+          <video #videoEl class="vd-video" autoplay muted playsinline
+                 [style.display]="status() === 'scanning' ? 'block' : 'none'"></video>
+
+          <!-- Hidden canvas for pixel extraction -->
+          <canvas #canvasEl style="display:none"></canvas>
+
+          <!-- Placeholder when not scanning -->
+          @if (status() !== 'scanning') {
+            <div class="vd-video-placeholder">
+              <div class="vd-placeholder-icon">
+                <i class="ti ti-camera-off"></i>
+              </div>
+              @if (status() === 'idle') {
+                <p>Camera preview will appear here</p>
+                <span>Position your face in the frame</span>
+              } @else if (status() === 'requesting') {
+                <p>Requesting camera access…</p>
+                <span>Please allow camera in your browser</span>
+              } @else if (status() === 'done') {
+                <p>Scan complete!</p>
+                <span>Review results on the right</span>
+              } @else if (status() === 'error') {
+                <p class="error-text">{{ errorMsg() }}</p>
+              }
+            </div>
+          }
+
+          <!-- ROI Overlay when scanning -->
+          @if (status() === 'scanning') {
+            <div class="vd-roi-overlay">
+              <div class="vd-roi-box">
+                <span class="roi-corner tl"></span>
+                <span class="roi-corner tr"></span>
+                <span class="roi-corner bl"></span>
+                <span class="roi-corner br"></span>
+                <span class="roi-label">Forehead ROI</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Progress bar -->
+        @if (status() === 'scanning') {
+          <div class="vd-progress-section">
+            <div class="vd-progress-meta">
+              <span>Scanning… {{ formatTime(scanSeconds()) }} / {{ formatTime(SCAN_DURATION) }}</span>
+              <span>{{ scanProgress() | number:'1.0-0' }}%</span>
+            </div>
+            <div class="vd-progress-bar">
+              <div class="vd-progress-fill" [style.width]="scanProgress() + '%'"></div>
+            </div>
+          </div>
+        }
+
+        <!-- Signal quality -->
+        @if (status() === 'scanning' && confidence() > 0) {
+          <div class="vd-signal-quality">
+            <span class="sq-label"><i class="ti ti-wave-sine"></i> Signal Quality</span>
+            <div class="sq-bar">
+              <div class="sq-fill"
+                   [style.width]="confidence() + '%'"
+                   [class]="confidence() > 70 ? 'sq-good' : confidence() > 40 ? 'sq-ok' : 'sq-poor'">
+              </div>
+            </div>
+            <span class="sq-pct">{{ confidence() }}%</span>
+          </div>
+        }
+      </div>
+
+      <!-- Controls Card -->
+      <div class="vd-card vd-controls-card">
+        <div class="vd-card-header">
+          <span class="vd-card-title"><i class="ti ti-settings"></i> Scan Controls</span>
+        </div>
+
+        <!-- Patient selector -->
+        <div class="vd-form-group">
+          <label class="vd-label"><i class="ti ti-user"></i> Link to Patient (optional)</label>
+          <select class="vd-select" [(ngModel)]="selectedPatientId">
+            <option value="">— Unlinked scan —</option>
+            @for (p of patients(); track p._id) {
+              <option [value]="p._id">{{ p.firstName }} {{ p.lastName }} · {{ p.mrn }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="vd-btn-row">
+          @if (status() === 'idle' || status() === 'done' || status() === 'error') {
+            <button class="vd-btn vd-btn-primary" (click)="startScan()">
+              <i class="ti ti-player-play"></i>
+              {{ status() === 'done' || status() === 'error' ? 'Scan Again' : 'Start Scan' }}
+            </button>
+          }
+          @if (status() === 'scanning') {
+            <button class="vd-btn vd-btn-danger" (click)="stopScan()">
+              <i class="ti ti-player-stop"></i> Stop Scan
+            </button>
+          }
+          @if (status() === 'requesting') {
+            <button class="vd-btn vd-btn-disabled" disabled>
+              <span class="vd-spinner"></span> Awaiting permission…
+            </button>
+          }
+          @if (canSave) {
+            <button class="vd-btn vd-btn-success" (click)="saveScan()">
+              <i class="ti ti-device-floppy"></i>
+              {{ saveSuccess() ? '✓ Saved!' : 'Save Results' }}
+            </button>
+          }
+        </div>
+
+        @if (status() !== 'idle') {
+          <button class="vd-btn-link" (click)="resetScan()">
+            <i class="ti ti-refresh"></i> Reset
+          </button>
+        }
+      </div>
+
+    </div>
+
+    <!-- ── RIGHT COLUMN: Vitals Dashboard ──────────────────────────────── -->
+    <div class="vd-right-col">
+
+      <!-- Vitals Grid -->
+      <div class="vd-vitals-grid">
+
+        <!-- Heart Rate -->
+        <div class="vd-vital-card" [class]="'vital-' + hrStatus()">
+          <div class="vital-top">
+            <div class="vital-icon-wrap vital-hr">
+              <i class="ti ti-heart-rate-monitor"></i>
+            </div>
+            <span class="vital-name">Heart Rate</span>
+          </div>
+          <div class="vital-value">
+            <span class="vital-number">{{ heartRate() > 0 ? heartRate() : '—' }}</span>
+            <span class="vital-unit">BPM</span>
+          </div>
+          <div class="vital-badge" [class]="'badge-' + hrStatus()">
+            {{ hrStatus() === 'normal' ? '● Normal' : hrStatus() === 'low' ? '▼ Low' :
+               hrStatus() === 'high' ? '▲ High' : '· Awaiting…' }}
+          </div>
+        </div>
+
+        <!-- SpO2 -->
+        <div class="vd-vital-card" [class]="'vital-' + spo2Status()">
+          <div class="vital-top">
+            <div class="vital-icon-wrap vital-spo2">
+              <i class="ti ti-lungs"></i>
+            </div>
+            <span class="vital-name">SpO₂</span>
+          </div>
+          <div class="vital-value">
+            <span class="vital-number">{{ spo2() > 0 ? spo2() : '—' }}</span>
+            <span class="vital-unit">%</span>
+          </div>
+          <div class="vital-badge" [class]="'badge-' + spo2Status()">
+            {{ spo2Status() === 'normal' ? '● Normal' : spo2Status() === 'low' ? '▼ Low' : '· Awaiting…' }}
+          </div>
+        </div>
+
+        <!-- Respiratory Rate -->
+        <div class="vd-vital-card" [class]="'vital-' + rrStatus()">
+          <div class="vital-top">
+            <div class="vital-icon-wrap vital-rr">
+              <i class="ti ti-air"></i>
+            </div>
+            <span class="vital-name">Resp. Rate</span>
+          </div>
+          <div class="vital-value">
+            <span class="vital-number">{{ respiratoryRate() > 0 ? respiratoryRate() : '—' }}</span>
+            <span class="vital-unit">br/min</span>
+          </div>
+          <div class="vital-badge" [class]="'badge-' + rrStatus()">
+            {{ rrStatus() === 'normal' ? '● Normal' : rrStatus() === 'abnormal' ? '⚠ Abnormal' : '· Awaiting…' }}
+          </div>
+        </div>
+
+        <!-- Confidence (full-width) -->
+        <div class="vd-vital-card vital-conf-card">
+          <div class="vital-top">
+            <div class="vital-icon-wrap vital-conf">
+              <i class="ti ti-wave-sine"></i>
+            </div>
+            <span class="vital-name">Signal Confidence</span>
+          </div>
+          <div class="vital-value">
+            <span class="vital-number">{{ confidence() > 0 ? confidence() : '—' }}</span>
+            <span class="vital-unit">%</span>
+          </div>
+          <div class="vital-conf-bar">
+            <div class="conf-fill" [style.width]="confidence() + '%'"
+                 [class]="confidence() > 70 ? 'conf-good' : 'conf-ok'"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Waveform -->
+      <div class="vd-card vd-wave-card">
+        <div class="vd-card-header">
+          <span class="vd-card-title"><i class="ti ti-activity"></i> rPPG Waveform</span>
+          @if (status() === 'scanning') {
+            <span class="vd-live-badge"><span class="live-dot"></span>LIVE</span>
+          }
+        </div>
+        <canvas #waveCanvas class="vd-wave-canvas" width="600" height="100"></canvas>
+        @if (waveform().length === 0) {
+          <div class="wave-empty">
+            <i class="ti ti-wave-sine"></i>
+            Waveform will appear after ~3 seconds of scanning
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SCAN HISTORY ══════════════════════════ -->
+  <div class="vd-card vd-history-card">
+    <div class="vd-card-header">
+      <span class="vd-card-title"><i class="ti ti-history"></i> Scan History</span>
+      <span class="vd-history-count">{{ scanHistory().length }} scans</span>
+    </div>
+
+    @if (scanHistory().length === 0) {
+      <div class="vd-empty-state">
+        <i class="ti ti-database-off"></i>
+        <p>No scans saved yet. Complete a scan and click <strong>Save Results</strong>.</p>
+      </div>
+    } @else {
+      <div class="vd-table-wrapper">
+        <table class="vd-table">
+          <thead>
+            <tr>
+              <th>Patient</th>
+              <th>Date / Time</th>
+              <th>HR (BPM)</th>
+              <th>SpO₂ (%)</th>
+              <th>RR (br/min)</th>
+              <th>Confidence</th>
+              <th>Method</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (scan of scanHistory(); track scan._id) {
+              <tr>
+                <td>
+                  <span class="patient-chip">
+                    <i class="ti ti-user-circle"></i>
+                    {{ patientName(scan) }}
+                  </span>
+                </td>
+                <td class="muted">{{ scan._creationTime | date:'dd MMM, HH:mm' }}</td>
+                <td><span class="vital-chip chip-hr">{{ scan.heartRate }}</span></td>
+                <td><span class="vital-chip chip-spo2">{{ scan.spo2 }}%</span></td>
+                <td>{{ scan.respiratoryRate }}</td>
+                <td>
+                  <div class="conf-mini-bar">
+                    <div class="conf-mini-fill" [style.width]="scan.confidence + '%'"
+                         [class]="scan.confidence > 70 ? 'conf-good' : 'conf-ok'"></div>
+                  </div>
+                  <span class="muted" style="font-size:11px">{{ scan.confidence }}%</span>
+                </td>
+                <td><span class="method-badge">{{ scan.detectedBy }}</span></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <!-- Medical Disclaimer -->
+  <div class="vd-disclaimer">
+    <i class="ti ti-shield-exclamation"></i>
+    <strong>Medical Disclaimer:</strong> This tool uses remote photoplethysmography (rPPG) for wellness estimation only.
+    Results are <em>not</em> validated for clinical diagnosis and should not replace FDA/CE-cleared medical devices
+    or professional clinical assessment.
+  </div>
+
+</div>
